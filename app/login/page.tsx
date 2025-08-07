@@ -31,6 +31,8 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const recaptchaEnabled = Boolean(siteKey);
 
   useEffect(() => {
     if (session) router.replace("/dashboard");
@@ -95,10 +97,12 @@ export default function LoginPage() {
               type="password"
             />
           </FormControl>
-          <ReCAPTCHA
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-            onChange={(token) => setCaptchaToken(token)}
-          />
+          {recaptchaEnabled && (
+            <ReCAPTCHA
+              sitekey={siteKey as string}
+              onChange={(token) => setCaptchaToken(token)}
+            />
+          )}
           <Stack direction="row" justify="space-between" align="center">
             <Checkbox isChecked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}>
               Remember Me
@@ -107,7 +111,11 @@ export default function LoginPage() {
               Forgot Password?
             </Link>
           </Stack>
-          <Button type="submit" colorScheme="brand" isDisabled={!captchaToken}>
+          <Button
+            type="submit"
+            colorScheme="brand"
+            isDisabled={recaptchaEnabled && !captchaToken}
+          >
             Sign In
           </Button>
         </Stack>
