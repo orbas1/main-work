@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Database migrations on Vercel
+
+This project uses [Prisma](https://www.prisma.io/) for database access and migrations. On every deployment, Vercel runs the `postinstall` script which automatically generates the Prisma client, runs any pending migrations against the Neon PostgreSQL database, and executes the seed script.
+
+To enable this behaviour, set the `DATABASE_URL` environment variable in your Vercel project settings to your Neon connection string. The `postinstall` script skips migrations and seeding when `DATABASE_URL` is not defined.
+
+Manual commands are available for local development:
+
+```bash
+npm run migrate # Apply migrations
+npm run seed    # Run the seed script
+```
