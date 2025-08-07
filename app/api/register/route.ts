@@ -8,6 +8,17 @@ export async function POST(req: Request) {
       name: data.name,
       email: data.email,
       password: data.password,
+      phone: data.phone,
+      location: data.location,
+      bio: data.bio,
+      expertise: data.expertise,
+      payment: data.payment,
+      taxId: data.taxId,
+      portfolio: data.portfolio,
+      title: data.title,
+      image: data.image,
+      resume: data.resume,
+      coverLetter: data.coverLetter,
     });
     return NextResponse.json({ user });
   } catch (e: any) {
