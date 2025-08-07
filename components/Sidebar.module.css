@@ -1,0 +1,10 @@
+.nav {
+  width: 100%;
+}
+.link {
+  width: 100%;
+}
+.active {
+  background-color: #EDF2F7;
+  font-weight: 600;
+}

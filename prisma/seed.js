@@ -15,6 +15,14 @@ async function main() {
     },
   });
 
+  await prisma.user.createMany({
+    data: [
+      { email: 'alice@example.com', name: 'Alice', password },
+      { email: 'bob@example.com', name: 'Bob', password },
+    ],
+    skipDuplicates: true,
+  });
+
   await prisma.testimonial.createMany({
     data: [
       {
@@ -30,6 +38,17 @@ async function main() {
     ],
     skipDuplicates: true,
   });
+
+  const admin = await prisma.user.findUnique({ where: { email: 'admin@example.com' } });
+  if (admin) {
+    await prisma.project.createMany({
+      data: [
+        { title: 'Neon Launch', ownerId: admin.id, status: 'Active' },
+        { title: 'Marketing Site', ownerId: admin.id, status: 'Planning' },
+      ],
+      skipDuplicates: true,
+    });
+  }
 }
 
 main()

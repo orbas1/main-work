@@ -2,8 +2,16 @@
 
 import { VStack, Link as ChakraLink } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import styles from "./Sidebar.module.css";
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  const links = [
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/profile", label: "Profile" },
+  ];
+
   return (
     <VStack
       as="nav"
@@ -15,13 +23,21 @@ export default function Sidebar() {
       align="stretch"
       borderRightWidth="1px"
       borderColor="gray.200"
+      className={styles.nav}
     >
-      <ChakraLink as={NextLink} href="/dashboard" p={2} borderRadius="md" _hover={{ bg: "gray.100" }} fontWeight="medium">
-        Dashboard
-      </ChakraLink>
-      <ChakraLink as={NextLink} href="/profile" p={2} borderRadius="md" _hover={{ bg: "gray.100" }} fontWeight="medium">
-        Profile
-      </ChakraLink>
+      {links.map((link) => (
+        <ChakraLink
+          key={link.href}
+          as={NextLink}
+          href={link.href}
+          p={2}
+          borderRadius="md"
+          _hover={{ bg: "gray.100" }}
+          className={`${styles.link} ${pathname === link.href ? styles.active : ""}`}
+        >
+          {link.label}
+        </ChakraLink>
+      ))}
     </VStack>
   );
 }
