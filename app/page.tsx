@@ -18,6 +18,7 @@ import {
   Td,
   TableCaption,
 } from "@chakra-ui/react";
+import AnalyticsChart from "../components/AnalyticsChart";
 
 const users = [
   { id: 1, name: "Alice", email: "alice@example.com", role: "admin" },
@@ -34,7 +35,7 @@ export default function Home() {
   return (
     <Box p={8}>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
-        <Card>
+        <Card borderRadius="xl" boxShadow="md">
           <CardHeader>
             <Heading size="md">Users</Heading>
           </CardHeader>
@@ -45,7 +46,7 @@ export default function Home() {
             </Stat>
           </CardBody>
         </Card>
-        <Card>
+        <Card borderRadius="xl" boxShadow="md">
           <CardHeader>
             <Heading size="md">Projects</Heading>
           </CardHeader>
@@ -56,7 +57,7 @@ export default function Home() {
             </Stat>
           </CardBody>
         </Card>
-        <Card>
+        <Card borderRadius="xl" boxShadow="md">
           <CardHeader>
             <Heading size="md">Revenue</Heading>
           </CardHeader>
@@ -68,60 +69,72 @@ export default function Home() {
           </CardBody>
         </Card>
       </SimpleGrid>
+      <Card mb={10} borderRadius="xl" boxShadow="md">
+        <CardHeader>
+          <Heading size="md">Traffic Overview</Heading>
+        </CardHeader>
+        <CardBody>
+          <AnalyticsChart />
+        </CardBody>
+      </Card>
 
-      <Box mb={10}>
-        <Heading size="md" mb={4}>
-          Users
-        </Heading>
-        <Table variant="simple">
-          <TableCaption>Users from Neon backend (placeholder)</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Name</Th>
-              <Th>Email</Th>
-              <Th>Role</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {users.map((user) => (
-              <Tr key={user.id}>
-                <Td>{user.id}</Td>
-                <Td>{user.name}</Td>
-                <Td>{user.email}</Td>
-                <Td>{user.role}</Td>
+      <Card mb={10} borderRadius="xl" boxShadow="md">
+        <CardHeader>
+          <Heading size="md">Users</Heading>
+        </CardHeader>
+        <CardBody>
+          <Table variant="simple">
+            <TableCaption>Users from Neon backend (placeholder)</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>ID</Th>
+                <Th>Name</Th>
+                <Th>Email</Th>
+                <Th>Role</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Box>
+            </Thead>
+            <Tbody>
+              {users.map((user) => (
+                <Tr key={user.id}>
+                  <Td>{user.id}</Td>
+                  <Td>{user.name}</Td>
+                  <Td>{user.email}</Td>
+                  <Td>{user.role}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </CardBody>
+      </Card>
 
-      <Box>
-        <Heading size="md" mb={4}>
-          Projects
-        </Heading>
-        <Table variant="simple">
-          <TableCaption>Projects stored in Neon (placeholder)</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Title</Th>
-              <Th>Owner</Th>
-              <Th>Status</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {projects.map((project) => (
-              <Tr key={project.id}>
-                <Td>{project.id}</Td>
-                <Td>{project.title}</Td>
-                <Td>{project.owner}</Td>
-                <Td>{project.status}</Td>
+      <Card borderRadius="xl" boxShadow="md">
+        <CardHeader>
+          <Heading size="md">Projects</Heading>
+        </CardHeader>
+        <CardBody>
+          <Table variant="simple">
+            <TableCaption>Projects stored in Neon (placeholder)</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>ID</Th>
+                <Th>Title</Th>
+                <Th>Owner</Th>
+                <Th>Status</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Box>
+            </Thead>
+            <Tbody>
+              {projects.map((project) => (
+                <Tr key={project.id}>
+                  <Td>{project.id}</Td>
+                  <Td>{project.title}</Td>
+                  <Td>{project.owner}</Td>
+                  <Td>{project.status}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </CardBody>
+      </Card>
     </Box>
   );
 }
