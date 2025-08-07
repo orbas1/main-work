@@ -1,6 +1,7 @@
 "use client";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import { SessionProvider } from "next-auth/react";
 import theme from "../theme";
 
 export function Providers({
@@ -8,5 +9,9 @@ export function Providers({
 }: {
   children: React.ReactNode;
 }) {
-  return <ChakraProvider theme={theme}>{children}</ChakraProvider>;
+  return (
+    <SessionProvider>
+      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+    </SessionProvider>
+  );
 }
