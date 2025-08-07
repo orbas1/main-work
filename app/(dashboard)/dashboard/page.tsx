@@ -1,9 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   Box,
   SimpleGrid,
-  Heading,
   Stat,
   StatLabel,
   StatNumber,
@@ -17,21 +17,33 @@ import {
 } from "@chakra-ui/react";
 import DashboardCard from "@/components/DashboardCard";
 import LineChart from "@/components/LineChart";
+import api from "@/lib/api";
+import styles from "./page.module.css";
 
-const users = [
-  { id: 1, name: "Alice", email: "alice@example.com", role: "admin" },
-  { id: 2, name: "Bob", email: "bob@example.com", role: "user" },
-  { id: 3, name: "Charlie", email: "charlie@example.com", role: "editor" },
-];
+interface User {
+  id: number;
+  name: string | null;
+  email: string;
+}
 
-const projects = [
-  { id: 101, title: "Neon Launch", owner: "Alice", status: "Active" },
-  { id: 102, title: "Marketing Site", owner: "Bob", status: "Planning" },
-];
+interface Project {
+  id: number;
+  title: string;
+  owner: string;
+  status: string;
+}
 
-export default function Home() {
+export default function DashboardPage() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    api.get<User[]>("/users").then(setUsers).catch(console.error);
+    api.get<Project[]>("/projects").then(setProjects).catch(console.error);
+  }, []);
+
   return (
-    <Box>
+    <Box className={styles.container}>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
         <DashboardCard title="Users">
           <Stat>
@@ -48,7 +60,7 @@ export default function Home() {
         <DashboardCard title="Revenue">
           <Stat>
             <StatLabel>Monthly</StatLabel>
-            <StatNumber>$12,345</StatNumber>
+            <StatNumber>$0</StatNumber>
           </Stat>
         </DashboardCard>
       </SimpleGrid>
@@ -59,13 +71,12 @@ export default function Home() {
         </DashboardCard>
         <DashboardCard title="Users">
           <Table variant="simple">
-            <TableCaption>Users from Neon backend (placeholder)</TableCaption>
+            <TableCaption>Users</TableCaption>
             <Thead>
               <Tr>
                 <Th>ID</Th>
                 <Th>Name</Th>
                 <Th>Email</Th>
-                <Th>Role</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -74,7 +85,6 @@ export default function Home() {
                   <Td>{user.id}</Td>
                   <Td>{user.name}</Td>
                   <Td>{user.email}</Td>
-                  <Td>{user.role}</Td>
                 </Tr>
               ))}
             </Tbody>
@@ -84,7 +94,7 @@ export default function Home() {
 
       <DashboardCard title="Projects">
         <Table variant="simple">
-          <TableCaption>Projects stored in Neon (placeholder)</TableCaption>
+          <TableCaption>Projects</TableCaption>
           <Thead>
             <Tr>
               <Th>ID</Th>
