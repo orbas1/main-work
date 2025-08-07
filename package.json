@@ -10,8 +10,7 @@
     "migrate": "prisma migrate deploy",
     "seed": "prisma db seed",
     "baseline": "node prisma/baseline.js",
-    "vercel-env": "node scripts/push-vercel-env.js",
-    "vercel-build": "npm run vercel-env && npm run baseline && next build"
+    "vercel-build": "npm run build"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
