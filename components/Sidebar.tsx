@@ -16,7 +16,7 @@ export default function Sidebar() {
       borderRightWidth="1px"
       borderColor="gray.200"
     >
-      <ChakraLink as={NextLink} href="/" p={2} borderRadius="md" _hover={{ bg: "gray.100" }} fontWeight="medium">
+      <ChakraLink as={NextLink} href="/dashboard" p={2} borderRadius="md" _hover={{ bg: "gray.100" }} fontWeight="medium">
         Dashboard
       </ChakraLink>
       <ChakraLink as={NextLink} href="/profile" p={2} borderRadius="md" _hover={{ bg: "gray.100" }} fontWeight="medium">
