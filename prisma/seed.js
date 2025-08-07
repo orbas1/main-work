@@ -14,6 +14,22 @@ async function main() {
       password,
     },
   });
+
+  await prisma.testimonial.createMany({
+    data: [
+      {
+        name: 'Jane Doe',
+        message: 'Orbas helped us hire top talent quickly and efficiently.',
+        avatarUrl: null,
+      },
+      {
+        name: 'John Smith',
+        message: 'The gig management tools saved our team countless hours.',
+        avatarUrl: null,
+      },
+    ],
+    skipDuplicates: true,
+  });
 }
 
 main()

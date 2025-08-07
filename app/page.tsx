@@ -1,13 +1,33 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Box, Button, Flex, Heading, Text, Stack, SimpleGrid, Icon, Image, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { FaBrain, FaTasks, FaChartLine } from "react-icons/fa";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
+import styles from "./page.module.css";
 
 export default function LandingPage() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setIsScrolled(window.scrollY > 10);
+    handler();
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
   return (
     <Box>
-      <Flex as="header" justify="space-between" align="center" p={4} position="sticky" top={0} bg="white" boxShadow="sm">
+      <Flex
+        as="header"
+        justify="space-between"
+        align="center"
+        p={4}
+        position="sticky"
+        top={0}
+        className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}
+      >
         <Heading size="md">Orbas</Heading>
         <Stack direction="row" spacing={4} align="center">
           <Button as={NextLink} href="/login" variant="ghost">Login</Button>
@@ -42,8 +62,9 @@ export default function LandingPage() {
       </Box>
 
       <Box py={20} px={4} bg="gray.50" textAlign="center">
-        <Heading size="lg" mb={6}>Trusted by innovators</Heading>
-        <Stack direction="row" spacing={10} justify="center" align="center">
+        <Heading size="lg" mb={6}>What people are saying</Heading>
+        <TestimonialCarousel />
+        <Stack direction="row" spacing={10} justify="center" align="center" mt={10}>
           <Image src="/next.svg" alt="Partner" boxSize="60px" opacity={0.6} />
           <Image src="/vercel.svg" alt="Partner" boxSize="60px" opacity={0.6} />
         </Stack>
