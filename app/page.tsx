@@ -1,110 +1,67 @@
 "use client";
 
-import {
-  Box,
-  SimpleGrid,
-  Heading,
-  Stat,
-  StatLabel,
-  StatNumber,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-} from "@chakra-ui/react";
-import DashboardCard from "../components/DashboardCard";
-import LineChart from "../components/LineChart";
+import { Box, Button, Flex, Heading, Text, Stack, SimpleGrid, Icon, Image, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
+import { FaBrain, FaTasks, FaChartLine } from "react-icons/fa";
 
-const users = [
-  { id: 1, name: "Alice", email: "alice@example.com", role: "admin" },
-  { id: 2, name: "Bob", email: "bob@example.com", role: "user" },
-  { id: 3, name: "Charlie", email: "charlie@example.com", role: "editor" },
-];
-
-const projects = [
-  { id: 101, title: "Neon Launch", owner: "Alice", status: "Active" },
-  { id: 102, title: "Marketing Site", owner: "Bob", status: "Planning" },
-];
-
-export default function Home() {
+export default function LandingPage() {
   return (
     <Box>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
-        <DashboardCard title="Users">
-          <Stat>
-            <StatLabel>Total Users</StatLabel>
-            <StatNumber>{users.length}</StatNumber>
-          </Stat>
-        </DashboardCard>
-        <DashboardCard title="Projects">
-          <Stat>
-            <StatLabel>Active Projects</StatLabel>
-            <StatNumber>{projects.length}</StatNumber>
-          </Stat>
-        </DashboardCard>
-        <DashboardCard title="Revenue">
-          <Stat>
-            <StatLabel>Monthly</StatLabel>
-            <StatNumber>$12,345</StatNumber>
-          </Stat>
-        </DashboardCard>
-      </SimpleGrid>
+      <Flex as="header" justify="space-between" align="center" p={4} position="sticky" top={0} bg="white" boxShadow="sm">
+        <Heading size="md">Orbas</Heading>
+        <Stack direction="row" spacing={4} align="center">
+          <Button as={NextLink} href="/login" variant="ghost">Login</Button>
+          <Button as={NextLink} href="/signup" colorScheme="brand">Sign Up</Button>
+        </Stack>
+      </Flex>
 
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} mb={10}>
-        <DashboardCard title="Performance">
-          <LineChart />
-        </DashboardCard>
-        <DashboardCard title="Users">
-          <Table variant="simple">
-            <TableCaption>Users from Neon backend (placeholder)</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>ID</Th>
-                <Th>Name</Th>
-                <Th>Email</Th>
-                <Th>Role</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {users.map((user) => (
-                <Tr key={user.id}>
-                  <Td>{user.id}</Td>
-                  <Td>{user.name}</Td>
-                  <Td>{user.email}</Td>
-                  <Td>{user.role}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </DashboardCard>
-      </SimpleGrid>
+      <Box textAlign="center" py={24} px={4} bg="gray.50">
+        <Heading size="2xl" mb={4}>Revolutionize Your Recruitment & Gig Management</Heading>
+        <Text fontSize="lg" mb={8}>AI-powered matching, integrated gig management and real-time analytics.</Text>
+        <Button colorScheme="brand" size="lg" as={NextLink} href="/signup">Get Started</Button>
+      </Box>
 
-      <DashboardCard title="Projects">
-        <Table variant="simple">
-          <TableCaption>Projects stored in Neon (placeholder)</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Title</Th>
-              <Th>Owner</Th>
-              <Th>Status</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {projects.map((project) => (
-              <Tr key={project.id}>
-                <Td>{project.id}</Td>
-                <Td>{project.title}</Td>
-                <Td>{project.owner}</Td>
-                <Td>{project.status}</Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </DashboardCard>
+      <Box py={20} px={4}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+          <Stack align="center" spacing={3}>
+            <Icon as={FaBrain} boxSize={8} color="brand.500" />
+            <Heading size="md">AI-Powered Matching</Heading>
+            <Text textAlign="center">Connect with the right opportunities using intelligent algorithms.</Text>
+          </Stack>
+          <Stack align="center" spacing={3}>
+            <Icon as={FaTasks} boxSize={8} color="brand.500" />
+            <Heading size="md">Integrated Gig Management</Heading>
+            <Text textAlign="center">Manage tasks and projects seamlessly in one place.</Text>
+          </Stack>
+          <Stack align="center" spacing={3}>
+            <Icon as={FaChartLine} boxSize={8} color="brand.500" />
+            <Heading size="md">Real-Time Analytics</Heading>
+            <Text textAlign="center">Gain insights with up-to-the-minute data and reports.</Text>
+          </Stack>
+        </SimpleGrid>
+      </Box>
+
+      <Box py={20} px={4} bg="gray.50" textAlign="center">
+        <Heading size="lg" mb={6}>Trusted by innovators</Heading>
+        <Stack direction="row" spacing={10} justify="center" align="center">
+          <Image src="/next.svg" alt="Partner" boxSize="60px" opacity={0.6} />
+          <Image src="/vercel.svg" alt="Partner" boxSize="60px" opacity={0.6} />
+        </Stack>
+      </Box>
+
+      <Box py={20} px={4} textAlign="center">
+        <Heading size="lg" mb={4}>Ready to get started?</Heading>
+        <Button colorScheme="brand" size="lg" as={NextLink} href="/signup">Join Now</Button>
+      </Box>
+
+      <Box as="footer" py={10} px={4} bg="gray.800" color="gray.200" textAlign="center">
+        <Stack direction="row" spacing={6} justify="center" mb={4}>
+          <Link as={NextLink} href="#">Privacy Policy</Link>
+          <Link as={NextLink} href="#">Terms of Service</Link>
+          <Link as={NextLink} href="#">Help Center</Link>
+        </Stack>
+        <Text fontSize="sm">© {new Date().getFullYear()} Orbas</Text>
+      </Box>
     </Box>
   );
 }
