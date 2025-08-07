@@ -16,6 +16,20 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+### Environment variables
+
+Before running the app, copy `.env.example` to `.env` and provide the required values:
+
+```
+cp .env.example .env
+```
+
+The project expects a PostgreSQL connection string and NextAuth configuration:
+
+- `DATABASE_URL` – connection string for the PostgreSQL database
+- `NEXTAUTH_SECRET` – long random string used to sign authentication tokens
+- `NEXTAUTH_URL` – public URL where the application is hosted (defaults to `http://localhost:3000` during development)
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
