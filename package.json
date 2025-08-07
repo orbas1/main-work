@@ -6,12 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "prisma migrate deploy",
+    "seed": "prisma db seed",
+    "vercel-build": "npm run migrate && npm run seed && next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@prisma/client": "^6.13.0",
     "framer-motion": "^11.0.3",
     "next": "15.4.5",
     "react": "19.1.0",
@@ -24,7 +28,11 @@
     "@types/react-dom": "^19",
     "eslint": "^9.32.0",
     "eslint-config-next": "^15.4.5",
+    "prisma": "^6.13.0",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
