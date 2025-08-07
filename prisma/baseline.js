@@ -20,4 +20,13 @@ function resetDatabase() {
   }
 }
 
+function generateClient() {
+  try {
+    execSync('npx prisma generate', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('Failed to generate Prisma client', error);
+  }
+}
+
 resetDatabase();
+generateClient();
