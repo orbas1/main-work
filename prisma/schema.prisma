@@ -14,3 +14,10 @@ model User {
   password String
   image    String?
 }
+
+model Testimonial {
+  id        Int    @id @default(autoincrement())
+  name      String
+  message   String
+  avatarUrl String?
+}
