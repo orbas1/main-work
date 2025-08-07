@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run baseline && next build",
     "start": "next start",
     "lint": "next lint",
     "migrate": "prisma migrate deploy",
     "seed": "prisma db seed",
-    "vercel-build": "npm run migrate && npm run seed && next build"
+    "baseline": "node prisma/baseline.js",
+    "vercel-build": "npm run baseline && next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
