@@ -3,9 +3,6 @@
 import {
   Box,
   SimpleGrid,
-  Card,
-  CardHeader,
-  CardBody,
   Heading,
   Stat,
   StatLabel,
@@ -18,6 +15,8 @@ import {
   Td,
   TableCaption,
 } from "@chakra-ui/react";
+import DashboardCard from "../components/DashboardCard";
+import LineChart from "../components/LineChart";
 
 const users = [
   { id: 1, name: "Alice", email: "alice@example.com", role: "admin" },
@@ -32,74 +31,58 @@ const projects = [
 
 export default function Home() {
   return (
-    <Box p={8}>
+    <Box>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
-        <Card>
-          <CardHeader>
-            <Heading size="md">Users</Heading>
-          </CardHeader>
-          <CardBody>
-            <Stat>
-              <StatLabel>Total Users</StatLabel>
-              <StatNumber>{users.length}</StatNumber>
-            </Stat>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Heading size="md">Projects</Heading>
-          </CardHeader>
-          <CardBody>
-            <Stat>
-              <StatLabel>Active Projects</StatLabel>
-              <StatNumber>{projects.length}</StatNumber>
-            </Stat>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Heading size="md">Revenue</Heading>
-          </CardHeader>
-          <CardBody>
-            <Stat>
-              <StatLabel>Monthly</StatLabel>
-              <StatNumber>$12,345</StatNumber>
-            </Stat>
-          </CardBody>
-        </Card>
+        <DashboardCard title="Users">
+          <Stat>
+            <StatLabel>Total Users</StatLabel>
+            <StatNumber>{users.length}</StatNumber>
+          </Stat>
+        </DashboardCard>
+        <DashboardCard title="Projects">
+          <Stat>
+            <StatLabel>Active Projects</StatLabel>
+            <StatNumber>{projects.length}</StatNumber>
+          </Stat>
+        </DashboardCard>
+        <DashboardCard title="Revenue">
+          <Stat>
+            <StatLabel>Monthly</StatLabel>
+            <StatNumber>$12,345</StatNumber>
+          </Stat>
+        </DashboardCard>
       </SimpleGrid>
 
-      <Box mb={10}>
-        <Heading size="md" mb={4}>
-          Users
-        </Heading>
-        <Table variant="simple">
-          <TableCaption>Users from Neon backend (placeholder)</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Name</Th>
-              <Th>Email</Th>
-              <Th>Role</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {users.map((user) => (
-              <Tr key={user.id}>
-                <Td>{user.id}</Td>
-                <Td>{user.name}</Td>
-                <Td>{user.email}</Td>
-                <Td>{user.role}</Td>
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} mb={10}>
+        <DashboardCard title="Performance">
+          <LineChart />
+        </DashboardCard>
+        <DashboardCard title="Users">
+          <Table variant="simple">
+            <TableCaption>Users from Neon backend (placeholder)</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>ID</Th>
+                <Th>Name</Th>
+                <Th>Email</Th>
+                <Th>Role</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Box>
+            </Thead>
+            <Tbody>
+              {users.map((user) => (
+                <Tr key={user.id}>
+                  <Td>{user.id}</Td>
+                  <Td>{user.name}</Td>
+                  <Td>{user.email}</Td>
+                  <Td>{user.role}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </DashboardCard>
+      </SimpleGrid>
 
-      <Box>
-        <Heading size="md" mb={4}>
-          Projects
-        </Heading>
+      <DashboardCard title="Projects">
         <Table variant="simple">
           <TableCaption>Projects stored in Neon (placeholder)</TableCaption>
           <Thead>
@@ -121,7 +104,7 @@ export default function Home() {
             ))}
           </Tbody>
         </Table>
-      </Box>
+      </DashboardCard>
     </Box>
   );
 }
