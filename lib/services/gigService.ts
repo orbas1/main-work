@@ -46,6 +46,7 @@ export interface CreateGigData {
   category?: string;
   thumbnail?: string;
   sellerId: number;
+  status?: string;
 }
 
 export async function createGig(data: CreateGigData) {

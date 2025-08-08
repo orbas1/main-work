@@ -57,6 +57,9 @@ export default function DashboardPage() {
         <Button as={Link} href="/gigs" colorScheme="brand" variant="outline">
           Browse Gigs
         </Button>
+        <Button as={Link} href="/gig-management" colorScheme="brand" variant="outline">
+          Manage Gigs
+        </Button>
         <Button as={Link} href="/messages" colorScheme="brand" variant="outline">
           Messages
         </Button>
