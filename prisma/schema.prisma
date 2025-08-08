@@ -8,27 +8,29 @@ datasource db {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  name        String?
-  email       String  @unique
-  password    String
-  phone       String?
-  location    String?
-  bio         String?
-  expertise   String?
-  payment     String?
-  taxId       String?
-  portfolio   String?
-  title       String?
-  image       String?
-  resume      String?
-  coverLetter String?
-  notifications Notification[]
-  projects      Project[]
-  subscriptions Subscription[]
-  paymentMethods PaymentMethod[]
-  transactions   Transaction[]
-  gigs         Gig[]
+  id               Int               @id @default(autoincrement())
+  name             String?
+  email            String            @unique
+  password         String
+  phone            String?
+  location         String?
+  bio              String?
+  expertise        String?
+  payment          String?
+  taxId            String?
+  portfolio        String?
+  title            String?
+  image            String?
+  resume           String?
+  coverLetter      String?
+  notifications    Notification[]
+  projects         Project[]
+  subscriptions    Subscription[]
+  paymentMethods   PaymentMethod[]
+  transactions     Transaction[]
+  chatParticipants ChatParticipant[]
+  messages         Message[]
+  gigs             Gig[]
 }
 
 model Testimonial {
@@ -57,14 +59,14 @@ model Notification {
 }
 
 model Subscription {
-  id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [userId], references: [id])
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
   userId      Int
   plan        String
   status      String
-  autoRenew   Boolean  @default(true)
+  autoRenew   Boolean   @default(true)
   renewalDate DateTime?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 }
 
 model PaymentMethod {
@@ -89,7 +91,6 @@ model Transaction {
   status      String
   createdAt   DateTime @default(now())
 }
-
 
 model Chat {
   id           Int               @id @default(autoincrement())
