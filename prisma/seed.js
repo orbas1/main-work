@@ -88,6 +88,43 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.course.createMany({
+      data: [
+        {
+          title: 'Intro to Programming',
+          description: 'Learn the fundamentals of software development',
+          price: 99,
+        },
+        {
+          title: 'Advanced Design Concepts',
+          description: 'Deep dive into modern design methodologies',
+          price: 149,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
+    const course = await prisma.course.findFirst();
+    if (course) {
+      const now = new Date();
+      const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      await prisma.scheduleEvent.createMany({
+        data: [
+          {
+            title: 'Kickoff Session',
+            date: now,
+            courseId: course.id,
+          },
+          {
+            title: 'Workshop',
+            date: nextWeek,
+            courseId: course.id,
+          },
+        ],
+        skipDuplicates: true,
+      });
+    }
   }
 }
 
