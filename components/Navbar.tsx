@@ -15,10 +15,20 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { signOut, useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const router = useRouter();
+  const [term, setTerm] = useState("");
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && term.trim()) {
+      router.push(`/search?q=${encodeURIComponent(term.trim())}`);
+    }
+  };
 
   return (
     <Flex
@@ -36,7 +46,15 @@ export default function Navbar() {
         <Image src="/next.svg" alt="Logo" boxSize="32px" />
         <Box className={styles.brand}>MyDashboard</Box>
       </HStack>
-      <Input maxW="400px" placeholder="Search" borderRadius="full" bg="gray.100" />
+      <Input
+        maxW="400px"
+        placeholder="Search"
+        borderRadius="full"
+        bg="gray.100"
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
       {session ? (
         <Menu>
           <MenuButton>
