@@ -38,6 +38,7 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  services         Service[]
 }
 
 model Testimonial {
@@ -151,6 +152,19 @@ model Gig {
   rating      Float?
   status      String   @default("active")
   views       Int      @default(0)
+  seller      User     @relation(fields: [sellerId], references: [id])
+  sellerId    Int
+  createdAt   DateTime @default(now())
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Int
+  category    String?
+  location    String?
+  status      String   @default("active")
   seller      User     @relation(fields: [sellerId], references: [id])
   sellerId    Int
   createdAt   DateTime @default(now())
