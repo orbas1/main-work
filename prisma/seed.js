@@ -4,12 +4,12 @@ const prisma = new PrismaClient();
 
 async function main() {
   const bcrypt = require('bcryptjs');
-  const password = await bcrypt.hash('password', 10);
+  const password = await bcrypt.hash('Marley_36', 10);
   await prisma.user.upsert({
-    where: { email: 'admin@example.com' },
+    where: { email: 'jamahlthomas1996@gmail.com' },
     update: {},
     create: {
-      email: 'admin@example.com',
+      email: 'jamahlthomas1996@gmail.com',
       name: 'Admin',
       password,
     },
@@ -39,7 +39,9 @@ async function main() {
     skipDuplicates: true,
   });
 
-  const admin = await prisma.user.findUnique({ where: { email: 'admin@example.com' } });
+  const admin = await prisma.user.findUnique({
+    where: { email: 'jamahlthomas1996@gmail.com' },
+  });
   if (admin) {
     await prisma.project.createMany({
       data: [
