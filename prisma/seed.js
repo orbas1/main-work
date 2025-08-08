@@ -56,6 +56,30 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.gig.createMany({
+      data: [
+        {
+          title: 'Logo Design',
+          description: 'Professional logo design tailored to your brand identity.',
+          price: 150,
+          category: 'Design',
+          deliveryTime: 3,
+          rating: 4.8,
+          sellerId: admin.id,
+        },
+        {
+          title: 'Full-Stack Web App',
+          description: 'End-to-end development of modern web applications.',
+          price: 2000,
+          category: 'Programming',
+          deliveryTime: 14,
+          rating: 4.9,
+          sellerId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 

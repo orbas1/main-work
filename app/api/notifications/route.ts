@@ -8,7 +8,7 @@ import {
 
 export async function GET() {
   const session = await getServerSession(authOptions);
-  const id = session?.user?.id ? Number(session.user.id) : undefined;
+  const id = session?.user ? Number((session.user as any).id) : undefined;
   if (!id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -18,7 +18,7 @@ export async function GET() {
 
 export async function PATCH(req: Request) {
   const session = await getServerSession(authOptions);
-  const id = session?.user?.id ? Number(session.user.id) : undefined;
+  const id = session?.user ? Number((session.user as any).id) : undefined;
   if (!id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

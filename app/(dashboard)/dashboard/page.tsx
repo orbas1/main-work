@@ -35,21 +35,32 @@ interface Project {
   status: string;
 }
 
+interface Gig {
+  id: number;
+}
+
 export default function DashboardPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [gigs, setGigs] = useState<Gig[]>([]);
 
   useEffect(() => {
     api.get<User[]>("/users").then(setUsers).catch(console.error);
     api.get<Project[]>("/projects").then(setProjects).catch(console.error);
+    api.get<Gig[]>("/gigs").then(setGigs).catch(console.error);
   }, []);
 
   return (
     <Box className={styles.container}>
-      <Button as={Link} href="/onboarding" colorScheme="brand" mb={4}>
-        Complete Onboarding
-      </Button>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={4}>
+        <Button as={Link} href="/onboarding" colorScheme="brand">
+          Complete Onboarding
+        </Button>
+        <Button as={Link} href="/gigs" colorScheme="teal">
+          Browse Gigs
+        </Button>
+      </SimpleGrid>
+      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6} mb={10}>
         <DashboardCard title="Users">
           <Stat>
             <StatLabel>Total Users</StatLabel>
@@ -66,6 +77,12 @@ export default function DashboardPage() {
           <Stat>
             <StatLabel>Monthly</StatLabel>
             <StatNumber>$0</StatNumber>
+          </Stat>
+        </DashboardCard>
+        <DashboardCard title="Gigs">
+          <Stat>
+            <StatLabel>Total Gigs</StatLabel>
+            <StatNumber>{gigs.length}</StatNumber>
           </Stat>
         </DashboardCard>
       </SimpleGrid>
