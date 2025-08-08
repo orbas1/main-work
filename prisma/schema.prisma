@@ -31,6 +31,8 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  clientContracts     Contract[]       @relation("ClientContracts")
+  freelancerContracts Contract[]       @relation("FreelancerContracts")
 }
 
 model Testimonial {
@@ -132,4 +134,32 @@ model Gig {
   seller      User     @relation(fields: [sellerId], references: [id])
   sellerId    Int
   createdAt   DateTime @default(now())
+}
+
+model Contract {
+  id           Int         @id @default(autoincrement())
+  title        String
+  description  String
+  client       User        @relation("ClientContracts", fields: [clientId], references: [id])
+  clientId     Int
+  freelancer   User        @relation("FreelancerContracts", fields: [freelancerId], references: [id])
+  freelancerId Int
+  paymentType  String
+  totalValue   Float?
+  hourlyRate   Float?
+  expectedHours Float?
+  status       String       @default("draft")
+  milestones   Milestone[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Milestone {
+  id          Int      @id @default(autoincrement())
+  contract    Contract @relation(fields: [contractId], references: [id])
+  contractId  Int
+  description String
+  dueDate     DateTime
+  amount      Float
+  order       Int      @default(0)
 }
