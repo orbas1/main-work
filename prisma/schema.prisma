@@ -40,6 +40,21 @@ model Testimonial {
   avatarUrl String?
 }
 
+model Feature {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  imageUrl    String
+}
+
+model Solution {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  imageUrl    String
+  ctaText     String?
+}
+
 model Project {
   id        Int      @id @default(autoincrement())
   title     String
