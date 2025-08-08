@@ -1,0 +1,9 @@
+.list {
+  width: 100%;
+}
+.item {
+  transition: background 0.2s ease;
+}
+.item:hover {
+  background: #f7fafc;
+}

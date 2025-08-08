@@ -40,6 +40,8 @@ async function main() {
   });
 
   const admin = await prisma.user.findUnique({ where: { email: 'admin@example.com' } });
+  const alice = await prisma.user.findUnique({ where: { email: 'alice@example.com' } });
+  const bob = await prisma.user.findUnique({ where: { email: 'bob@example.com' } });
   if (admin) {
     await prisma.project.createMany({
       data: [
@@ -49,6 +51,16 @@ async function main() {
       skipDuplicates: true,
     });
   }
+
+  await prisma.notification.createMany({
+    data: [
+      { userId: admin?.id, message: 'Welcome to Orbas!', type: 'system' },
+      { userId: admin?.id, message: 'Project "Neon Launch" updated.', type: 'project' },
+      { userId: alice?.id, message: 'Your profile was viewed.', type: 'profile' },
+      { userId: bob?.id, message: 'You received a new testimonial.', type: 'social' },
+    ].filter((n) => n.userId),
+    skipDuplicates: true,
+  });
 }
 
 main()

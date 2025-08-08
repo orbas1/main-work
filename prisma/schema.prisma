@@ -23,6 +23,8 @@ model User {
   image       String?
   resume      String?
   coverLetter String?
+  notifications Notification[]
+  projects      Project[]
 }
 
 model Testimonial {
@@ -38,5 +40,15 @@ model Project {
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   Int
   status    String
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  message   String
+  type      String
+  read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
