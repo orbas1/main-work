@@ -129,6 +129,9 @@ model Gig {
   rating      Float?
   status      String   @default("active")
   views       Int      @default(0)
+  clicks      Int      @default(0)
+  orders      Int      @default(0)
+  earnings    Float    @default(0)
   seller      User     @relation(fields: [sellerId], references: [id])
   sellerId    Int
   createdAt   DateTime @default(now())

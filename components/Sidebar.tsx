@@ -16,6 +16,7 @@ export default function Sidebar() {
     { href: "/billing", label: "Billing" },
     { href: "/notifications", label: "Notifications" },
     { href: "/messages", label: "Messages" },
+    { href: "/gigs-dashboard", label: "Gig Dashboard" },
     { href: "/gigs", label: "Browse Gigs" },
     { href: "/gig-management", label: "Manage Gigs" },
   ];

@@ -1438,6 +1438,8 @@ POST /gigs - Allows clients to post new gigs.
 GET /gigs - Lists all gigs, with filtering options for category, budget, and status.
 PUT /gigs/:gigId - Enables clients to update their gig postings.
 DELETE /gigs/:gigId - Allows clients to delete their gig postings.
+POST /gigs/:gigId/promote - Promote a gig to increase visibility.
+GET /gigs/:gigId/stats - Retrieve performance metrics (views, clicks, orders, earnings).
 Gig Applications for Freelancers:
 POST /gigs/:gigId/apply - Freelancers apply to gigs.
 GET /gigs/applied - Freelancers view gigs they have applied to.
