@@ -20,8 +20,12 @@ export async function POST(req: Request) {
       resume: data.resume,
       coverLetter: data.coverLetter,
     });
-    return NextResponse.json({ user });
+    return NextResponse.json({ user }, { status: 201 });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Registration failed" }, { status: 400 });
+    console.error("Registration error", e);
+    return NextResponse.json(
+      { error: e.message || "Registration failed" },
+      { status: 400 }
+    );
   }
 }
