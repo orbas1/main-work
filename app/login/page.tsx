@@ -31,6 +31,7 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const recaptchaEnabled = Boolean(siteKey);
 
@@ -49,6 +50,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSubmitting(true);
     const res = await signIn("credentials", {
       email,
       password,
@@ -56,6 +58,7 @@ export default function LoginPage() {
     });
     if (res?.error) {
       setError("Invalid email or password");
+      setSubmitting(false);
       return;
     }
     if (rememberMe) {
@@ -64,6 +67,7 @@ export default function LoginPage() {
       localStorage.removeItem("rememberedEmail");
     }
     router.push("/dashboard");
+    setSubmitting(false);
   };
 
   return (
@@ -114,7 +118,8 @@ export default function LoginPage() {
           <Button
             type="submit"
             colorScheme="brand"
-            isDisabled={recaptchaEnabled && !captchaToken}
+            isDisabled={(recaptchaEnabled && !captchaToken) || submitting}
+            isLoading={submitting}
           >
             Sign In
           </Button>
