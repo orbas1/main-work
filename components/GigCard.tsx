@@ -1,11 +1,12 @@
 "use client";
 
-import { Box, Image, Text, HStack, Icon, VStack, IconButton } from "@chakra-ui/react";
+import { Box, Image, Text, HStack, Icon, VStack, IconButton, Button } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 import { FaHeart } from "react-icons/fa";
 import styles from "./GigCard.module.css";
 import { formatCurrency } from "@/lib/utils/format";
 import { useFavorites } from "@/components/FavoritesContext";
+import NextLink from "next/link";
 
 export interface Gig {
   id: number;
@@ -69,6 +70,15 @@ export default function GigCard({ gig }: { gig: Gig }) {
         <Text fontSize="sm" color="gray.500">
           by {gig.seller.name}
         </Text>
+        <Button
+          as={NextLink}
+          href={`/gigs/${gig.id}/payment`}
+          colorScheme="brand"
+          size="sm"
+          className={styles.buyButton}
+        >
+          Buy Now
+        </Button>
       </VStack>
     </Box>
   );

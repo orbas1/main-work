@@ -31,6 +31,7 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  orders           GigOrder[]
 }
 
 model Testimonial {
@@ -90,6 +91,7 @@ model Transaction {
   description String
   status      String
   createdAt   DateTime @default(now())
+  order       GigOrder?
 }
 
 model Chat {
@@ -129,7 +131,21 @@ model Gig {
   rating      Float?
   status      String   @default("active")
   views       Int      @default(0)
-  seller      User     @relation(fields: [sellerId], references: [id])
+  seller      User       @relation(fields: [sellerId], references: [id])
   sellerId    Int
-  createdAt   DateTime @default(now())
+  createdAt   DateTime   @default(now())
+  orders      GigOrder[]
+}
+
+model GigOrder {
+  id            Int         @id @default(autoincrement())
+  gig           Gig         @relation(fields: [gigId], references: [id])
+  gigId         Int
+  buyer         User        @relation(fields: [buyerId], references: [id])
+  buyerId       Int
+  amount        Float
+  status        String      @default("paid")
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  transactionId Int
+  createdAt     DateTime    @default(now())
 }

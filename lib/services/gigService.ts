@@ -53,7 +53,12 @@ export async function createGig(data: CreateGigData) {
 }
 
 export async function getGig(id: number) {
-  return prisma.gig.findUnique({ where: { id } });
+  return prisma.gig.findUnique({
+    where: { id },
+    include: {
+      seller: { select: { id: true, name: true } },
+    },
+  });
 }
 
 export async function updateGig(id: number, data: Partial<CreateGigData> & { status?: string }) {

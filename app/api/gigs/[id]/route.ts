@@ -16,6 +16,15 @@ export async function PUT(req: NextRequest, { params }: any) {
   return NextResponse.json(gig);
 }
 
+export async function GET(req: NextRequest, { params }: any) {
+  const id = Number(params.id);
+  const gig = await getGig(id);
+  if (!gig) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+  return NextResponse.json(gig);
+}
+
 export async function DELETE(req: NextRequest, { params }: any) {
   const session = await getServerSession(authOptions);
   const sellerId = session?.user?.id ? Number(session.user.id) : undefined;

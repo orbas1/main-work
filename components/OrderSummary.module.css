@@ -1,0 +1,6 @@
+.summary {
+  padding: 1rem;
+  background: white;
+  border: 1px solid var(--chakra-colors-gray-200);
+  border-radius: 0.5rem;
+}
