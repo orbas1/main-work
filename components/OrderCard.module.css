@@ -1,0 +1,12 @@
+.card {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--chakra-shadows-sm);
+}
+
+.selected {
+  box-shadow: var(--chakra-shadows-md);
+}

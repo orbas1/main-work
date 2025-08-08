@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+}
+
+.list {
+  max-width: 400px;
+}
+
+.detail {
+  flex: 1;
+}

@@ -31,6 +31,8 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  buyerOrders     Order[] @relation("BuyerOrders")
+  sellerOrders    Order[] @relation("SellerOrders")
 }
 
 model Testimonial {
@@ -132,4 +134,20 @@ model Gig {
   seller      User     @relation(fields: [sellerId], references: [id])
   sellerId    Int
   createdAt   DateTime @default(now())
+  orders      Order[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  gig       Gig      @relation(fields: [gigId], references: [id])
+  gigId     Int
+  buyer     User     @relation("BuyerOrders", fields: [buyerId], references: [id])
+  buyerId   Int
+  seller    User     @relation("SellerOrders", fields: [sellerId], references: [id])
+  sellerId  Int
+  status    String   @default("pending")
+  dueDate   DateTime
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

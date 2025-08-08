@@ -42,7 +42,9 @@ async function main() {
   const admin = await prisma.user.findUnique({
     where: { email: 'jamahlthomas1996@gmail.com' },
   });
-  if (admin) {
+  const alice = await prisma.user.findUnique({ where: { email: 'alice@example.com' } });
+  const bob = await prisma.user.findUnique({ where: { email: 'bob@example.com' } });
+  if (admin && alice && bob) {
     await prisma.project.createMany({
       data: [
         { title: 'Neon Launch', ownerId: admin.id, status: 'Active' },
@@ -88,6 +90,31 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    const gigs = await prisma.gig.findMany({ where: { sellerId: admin.id } });
+    if (gigs.length >= 2) {
+      await prisma.order.createMany({
+        data: [
+          {
+            gigId: gigs[0].id,
+            buyerId: alice.id,
+            sellerId: admin.id,
+            status: 'in_progress',
+            dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            notes: 'Initial logo concepts pending',
+          },
+          {
+            gigId: gigs[1].id,
+            buyerId: bob.id,
+            sellerId: admin.id,
+            status: 'delivered',
+            dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            notes: 'Awaiting client feedback',
+          },
+        ],
+        skipDuplicates: true,
+      });
+    }
   }
 }
 
