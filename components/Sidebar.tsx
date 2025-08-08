@@ -15,6 +15,7 @@ export default function Sidebar() {
     { href: "/profile/edit", label: "Edit Profile" },
     { href: "/notifications", label: "Notifications" },
     { href: "/gigs", label: "Browse Gigs" },
+    { href: "/gig-management", label: "Manage Gigs" },
   ];
 
   return (
