@@ -9,6 +9,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const links = [
     { href: "/dashboard", label: "Dashboard" },
+    { href: "/feed", label: "Live Feed" },
     { href: "/search", label: "Search" },
     { href: "/onboarding", label: "Onboarding" },
     { href: "/profile", label: "Profile" },
