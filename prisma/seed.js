@@ -48,6 +48,14 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.notification.createMany({
+      data: [
+        { userId: admin.id, title: 'Welcome', message: 'Thanks for joining the platform!' },
+        { userId: admin.id, title: 'Project Update', message: 'Your project "Neon Launch" has a new milestone.' },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 

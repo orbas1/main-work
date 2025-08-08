@@ -14,6 +14,7 @@ import {
   Th,
   Td,
   TableCaption,
+  VStack,
 } from "@chakra-ui/react";
 import DashboardCard from "@/components/DashboardCard";
 import LineChart from "@/components/LineChart";
@@ -33,13 +34,22 @@ interface Project {
   status: string;
 }
 
+interface Notification {
+  id: number;
+  title: string;
+  message: string;
+  read: boolean;
+}
+
 export default function DashboardPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
     api.get<User[]>("/users").then(setUsers).catch(console.error);
     api.get<Project[]>("/projects").then(setProjects).catch(console.error);
+    api.get<Notification[]>("/notifications").then(setNotifications).catch(console.error);
   }, []);
 
   return (
@@ -91,6 +101,15 @@ export default function DashboardPage() {
           </Table>
         </DashboardCard>
       </SimpleGrid>
+
+      <DashboardCard title="Recent Notifications">
+        <VStack align="stretch">
+          {notifications.slice(0, 3).map((n) => (
+            <Box key={n.id}>{n.title}</Box>
+          ))}
+          {notifications.length === 0 && <Box>No notifications</Box>}
+        </VStack>
+      </DashboardCard>
 
       <DashboardCard title="Projects">
         <Table variant="simple">

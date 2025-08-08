@@ -16,6 +16,7 @@ import {
 import Link from "next/link";
 import { signOut, useSession, signIn } from "next-auth/react";
 import styles from "./Navbar.module.css";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -38,17 +39,20 @@ export default function Navbar() {
       </HStack>
       <Input maxW="400px" placeholder="Search" borderRadius="full" bg="gray.100" />
       {session ? (
-        <Menu>
-          <MenuButton>
-            <Avatar name={session.user?.name || "User"} src={session.user?.image || undefined} size="sm" />
-          </MenuButton>
-          <MenuList>
-            <MenuItem as={Link} href="/profile">
-              Profile
-            </MenuItem>
-            <MenuItem onClick={() => signOut()}>Logout</MenuItem>
-          </MenuList>
-        </Menu>
+        <HStack spacing={4}>
+          <NotificationBell />
+          <Menu>
+            <MenuButton>
+              <Avatar name={session.user?.name || "User"} src={session.user?.image || undefined} size="sm" />
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={Link} href="/profile">
+                Profile
+              </MenuItem>
+              <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        </HStack>
       ) : (
         <Button colorScheme="brand" onClick={() => signIn()}>
           Login
