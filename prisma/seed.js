@@ -57,6 +57,58 @@ async function main() {
       skipDuplicates: true,
     });
   }
+
+  const alice = await prisma.user.findUnique({ where: { email: 'alice@example.com' } });
+  const bob = await prisma.user.findUnique({ where: { email: 'bob@example.com' } });
+  if (alice && bob) {
+    const logoGig = await prisma.gig.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
+        title: 'Logo Design',
+        sellerId: alice.id,
+        price: 100,
+        views: 10,
+        clicks: 5,
+        orders: 2,
+        earnings: 200,
+      },
+    });
+    const websiteGig = await prisma.gig.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
+        title: 'Website Build',
+        sellerId: bob.id,
+        price: 500,
+        views: 20,
+        clicks: 10,
+        orders: 1,
+        earnings: 500,
+      },
+    });
+
+    await prisma.order.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
+        gigId: logoGig.id,
+        buyerId: bob.id,
+        status: 'completed',
+        price: logoGig.price,
+      },
+    });
+    await prisma.order.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
+        gigId: websiteGig.id,
+        buyerId: alice.id,
+        status: 'pending',
+        price: websiteGig.price,
+      },
+    });
+  }
 }
 
 main()

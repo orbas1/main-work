@@ -25,6 +25,8 @@ model User {
   coverLetter String?
   notifications Notification[]
   projects      Project[]
+  gigs          Gig[]
+  orders        Order[] @relation("BuyerOrders")
 }
 
 model Testimonial {
@@ -40,6 +42,33 @@ model Project {
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   Int
   status    String
+  createdAt DateTime @default(now())
+}
+
+model Gig {
+  id        Int      @id @default(autoincrement())
+  title     String
+  seller    User     @relation(fields: [sellerId], references: [id])
+  sellerId  Int
+  description String?
+  price     Float
+  views     Int      @default(0)
+  clicks    Int      @default(0)
+  orders    Int      @default(0)
+  earnings  Float    @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  ordersList Order[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  gig       Gig      @relation(fields: [gigId], references: [id])
+  gigId     Int
+  buyer     User     @relation("BuyerOrders", fields: [buyerId], references: [id])
+  buyerId   Int
+  status    String   @default("pending")
+  price     Float
   createdAt DateTime @default(now())
 }
 
