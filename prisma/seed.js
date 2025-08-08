@@ -48,6 +48,14 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.notification.createMany({
+      data: [
+        { userId: admin.id, message: 'Welcome to Orbas, Admin!' },
+        { userId: admin.id, message: 'Your dashboard has been updated.' },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 

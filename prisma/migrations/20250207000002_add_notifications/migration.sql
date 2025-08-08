@@ -1,0 +1,9 @@
+-- CreateTable
+CREATE TABLE "Notification" (
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "message" TEXT NOT NULL,
+    "read" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
