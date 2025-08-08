@@ -67,3 +67,13 @@ export async function deleteGig(id: number) {
 export async function getSellerGigs(sellerId: number) {
   return getGigs({ sellerId });
 }
+
+export async function getTopGigs(limit = 3) {
+  return prisma.gig.findMany({
+    orderBy: { rating: "desc" },
+    take: limit,
+    include: {
+      seller: { select: { id: true, name: true, image: true } },
+    },
+  });
+}

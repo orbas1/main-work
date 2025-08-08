@@ -88,6 +88,14 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.goal.createMany({
+      data: [
+        { userId: admin.id, title: 'Applications', target: 10, current: 3 },
+        { userId: admin.id, title: 'Earnings', target: 1000, current: 400 }
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 
