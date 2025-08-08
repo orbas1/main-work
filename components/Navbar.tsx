@@ -14,7 +14,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { signOut, useSession, signIn } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./Navbar.module.css";
@@ -77,7 +77,7 @@ export default function Navbar() {
           </MenuList>
         </Menu>
       ) : (
-        <Button colorScheme="brand" onClick={() => signIn()}>
+        <Button as={Link} href="/login" colorScheme="brand">
           Login
         </Button>
       )}

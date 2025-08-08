@@ -23,6 +23,8 @@ model User {
   image            String?
   resume           String?
   coverLetter      String?
+  twoFactorEnabled Boolean          @default(false)
+  twoFactorSecret  String?
   notifications    Notification[]
   projects         Project[]
   subscriptions    Subscription[]
