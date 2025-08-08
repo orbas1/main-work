@@ -1,5 +1,22 @@
 const { execSync } = require('child_process');
 
+function deployMigrations() {
+  // Only run in production-like environments where a database URL is provided
+  if (
+    !(process.env.VERCEL || process.env.NODE_ENV === 'production') ||
+    !process.env.DATABASE_URL
+  ) {
+    console.log('Skipping prisma migrate deploy');
+    return;
+  }
+
+  try {
+    execSync('npx prisma migrate deploy', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('Failed to deploy migrations', error);
+  }
+}
+
 function resetDatabase() {
   // Avoid running reset in environments where a database connection
   // isn't expected (e.g. production, CI or missing env vars)
@@ -28,5 +45,6 @@ function generateClient() {
   }
 }
 
+deployMigrations();
 resetDatabase();
 generateClient();
