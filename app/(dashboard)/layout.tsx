@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { Flex, Box } from "@chakra-ui/react";
 import { authOptions } from "@/lib/auth";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "Dashboard - Orbas",
@@ -27,6 +28,7 @@ export default async function DashboardLayout({
           {children}
         </Box>
       </Flex>
+      <ChatWidget />
     </>
   );
 }
