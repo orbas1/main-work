@@ -90,6 +90,7 @@ model Transaction {
   createdAt   DateTime @default(now())
 }
 
+
 model Chat {
   id           Int               @id @default(autoincrement())
   participants ChatParticipant[]
