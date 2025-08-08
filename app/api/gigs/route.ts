@@ -5,6 +5,7 @@ import { getGigs, createGig } from "@/lib/services/gigService";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
+  const session = await getServerSession(authOptions);
   const filters = {
     search: searchParams.get("search") || undefined,
     category: searchParams.get("category") || undefined,
@@ -15,6 +16,12 @@ export async function GET(req: Request) {
       ? Number(searchParams.get("maxPrice"))
       : undefined,
     sort: (searchParams.get("sort") as "price" | "rating" | "newest") || undefined,
+    status: searchParams.get("status") || undefined,
+    sellerId: searchParams.get("mine") === "true" && session?.user?.id
+      ? Number(session.user.id)
+      : searchParams.get("sellerId")
+      ? Number(searchParams.get("sellerId"))
+      : undefined,
   };
   const gigs = await getGigs(filters);
   return NextResponse.json(gigs);

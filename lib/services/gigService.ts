@@ -6,10 +6,12 @@ export interface GigFilters {
   minPrice?: number;
   maxPrice?: number;
   sort?: "price" | "rating" | "newest";
+  sellerId?: number;
+  status?: string;
 }
 
 export async function getGigs(filters: GigFilters = {}) {
-  const { search, category, minPrice, maxPrice, sort } = filters;
+  const { search, category, minPrice, maxPrice, sort, sellerId, status } = filters;
   const orderBy =
     sort === "price"
       ? { price: "asc" }
@@ -21,6 +23,8 @@ export async function getGigs(filters: GigFilters = {}) {
     where: {
       ...(search ? { title: { contains: search, mode: "insensitive" } } : {}),
       ...(category ? { category } : {}),
+      ...(status ? { status } : {}),
+      ...(sellerId ? { sellerId } : {}),
       ...(minPrice || maxPrice
         ? { price: { gte: minPrice || 0, lte: maxPrice || undefined } }
         : {}),
@@ -45,4 +49,20 @@ export interface CreateGigData {
 
 export async function createGig(data: CreateGigData) {
   return prisma.gig.create({ data });
+}
+
+export async function getGig(id: number) {
+  return prisma.gig.findUnique({ where: { id } });
+}
+
+export async function updateGig(id: number, data: Partial<CreateGigData> & { status?: string }) {
+  return prisma.gig.update({ where: { id }, data });
+}
+
+export async function deleteGig(id: number) {
+  return prisma.gig.delete({ where: { id } });
+}
+
+export async function getSellerGigs(sellerId: number) {
+  return getGigs({ sellerId });
 }
