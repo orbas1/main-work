@@ -15,6 +15,7 @@ import {
   Td,
   TableCaption,
   Button,
+  HStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import DashboardCard from "@/components/DashboardCard";
@@ -46,9 +47,14 @@ export default function DashboardPage() {
 
   return (
     <Box className={styles.container}>
-      <Button as={Link} href="/onboarding" colorScheme="brand" mb={4}>
-        Complete Onboarding
-      </Button>
+      <HStack spacing={4} mb={4}>
+        <Button as={Link} href="/onboarding" colorScheme="brand">
+          Complete Onboarding
+        </Button>
+        <Button as={Link} href="/gigs" colorScheme="brand" variant="outline">
+          Browse Gigs
+        </Button>
+      </HStack>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
         <DashboardCard title="Users">
           <Stat>

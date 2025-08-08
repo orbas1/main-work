@@ -3,6 +3,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 import theme from "../theme";
+import { FavoritesProvider } from "@/components/FavoritesContext";
 
 export function Providers({
   children,
@@ -11,7 +12,9 @@ export function Providers({
 }) {
   return (
     <SessionProvider>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      <ChakraProvider theme={theme}>
+        <FavoritesProvider>{children}</FavoritesProvider>
+      </ChakraProvider>
     </SessionProvider>
   );
 }
