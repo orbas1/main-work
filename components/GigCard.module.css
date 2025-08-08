@@ -5,3 +5,7 @@
 .card:hover {
   box-shadow: var(--chakra-shadows-md);
 }
+
+.quickView {
+  align-self: flex-start;
+}

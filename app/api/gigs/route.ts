@@ -15,6 +15,13 @@ export async function GET(req: Request) {
     maxPrice: searchParams.get("maxPrice")
       ? Number(searchParams.get("maxPrice"))
       : undefined,
+    maxDelivery: searchParams.get("maxDelivery")
+      ? Number(searchParams.get("maxDelivery"))
+      : undefined,
+    minRating: searchParams.get("minRating")
+      ? Number(searchParams.get("minRating"))
+      : undefined,
+    location: searchParams.get("location") || undefined,
     sort: (searchParams.get("sort") as "price" | "rating" | "newest") || undefined,
     status: searchParams.get("status") || undefined,
     sellerId: searchParams.get("mine") === "true" && session?.user?.id
@@ -33,7 +40,7 @@ export async function POST(req: Request) {
   if (!sellerId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const { title, description, price, category, thumbnail } = await req.json();
+  const { title, description, price, category, thumbnail, deliveryTime, location } = await req.json();
   if (!title || !description || typeof price !== "number") {
     return NextResponse.json({ error: "Invalid input" }, { status: 400 });
   }
@@ -43,6 +50,8 @@ export async function POST(req: Request) {
     price,
     category,
     thumbnail,
+    deliveryTime,
+    location,
     sellerId,
   });
   return NextResponse.json(gig, { status: 201 });

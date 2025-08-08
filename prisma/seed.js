@@ -68,6 +68,8 @@ async function main() {
           category: 'Design',
           sellerId: admin.id,
           rating: 4.8,
+          deliveryTime: 3,
+          location: 'Remote',
         },
         {
           title: 'Website Development',
@@ -76,6 +78,8 @@ async function main() {
           category: 'Development',
           sellerId: admin.id,
           rating: 4.5,
+          deliveryTime: 7,
+          location: 'Remote',
         },
         {
           title: 'SEO Audit',
@@ -84,6 +88,8 @@ async function main() {
           category: 'Marketing',
           sellerId: admin.id,
           rating: 4.7,
+          deliveryTime: 5,
+          location: 'Remote',
         },
       ],
       skipDuplicates: true,

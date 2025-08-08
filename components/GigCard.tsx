@@ -1,24 +1,39 @@
 "use client";
 
-import { Box, Image, Text, HStack, Icon, VStack, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Image,
+  Text,
+  HStack,
+  Icon,
+  VStack,
+  IconButton,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 import { FaHeart } from "react-icons/fa";
 import styles from "./GigCard.module.css";
 import { formatCurrency } from "@/lib/utils/format";
 import { useFavorites } from "@/components/FavoritesContext";
+import GigQuickViewModal from "./GigQuickViewModal";
 
 export interface Gig {
   id: number;
   title: string;
+  description: string;
   price: number;
   category?: string | null;
   thumbnail?: string | null;
   rating?: number | null;
+  deliveryTime?: number | null;
+  location?: string | null;
   seller: { name: string | null };
 }
 
 export default function GigCard({ gig }: { gig: Gig }) {
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const stars = Array.from({ length: 5 }, (_, i) => (
     <Icon
       as={StarIcon}
@@ -69,7 +84,11 @@ export default function GigCard({ gig }: { gig: Gig }) {
         <Text fontSize="sm" color="gray.500">
           by {gig.seller.name}
         </Text>
+        <Button size="sm" mt={2} onClick={onOpen} className={styles.quickView}>
+          Quick View
+        </Button>
       </VStack>
+      <GigQuickViewModal gig={gig} isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 }

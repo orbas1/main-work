@@ -6,13 +6,27 @@ export interface GigFilters {
   category?: string;
   minPrice?: number;
   maxPrice?: number;
+  maxDelivery?: number;
+  minRating?: number;
+  location?: string;
   sort?: "price" | "rating" | "newest";
   sellerId?: number;
   status?: string;
 }
 
 export async function getGigs(filters: GigFilters = {}) {
-  const { search, category, minPrice, maxPrice, sort, sellerId, status } = filters;
+  const {
+    search,
+    category,
+    minPrice,
+    maxPrice,
+    maxDelivery,
+    minRating,
+    sort,
+    sellerId,
+    status,
+    location,
+  } = filters;
   const orderBy: Prisma.GigOrderByWithRelationInput =
     sort === "price"
       ? { price: "asc" as const }
@@ -29,6 +43,9 @@ export async function getGigs(filters: GigFilters = {}) {
       ...(minPrice || maxPrice
         ? { price: { gte: minPrice || 0, lte: maxPrice || undefined } }
         : {}),
+      ...(maxDelivery ? { deliveryTime: { lte: maxDelivery } } : {}),
+      ...(minRating ? { rating: { gte: minRating } } : {}),
+      ...(location ? { location: { contains: location, mode: "insensitive" } } : {}),
     },
     include: {
       seller: {
@@ -45,6 +62,8 @@ export interface CreateGigData {
   price: number;
   category?: string;
   thumbnail?: string;
+  deliveryTime?: number;
+  location?: string;
   sellerId: number;
 }
 
@@ -66,4 +85,28 @@ export async function deleteGig(id: number) {
 
 export async function getSellerGigs(sellerId: number) {
   return getGigs({ sellerId });
+}
+
+export async function getGigCategories() {
+  const categories = await prisma.gig.findMany({
+    where: { category: { not: null } },
+    select: { category: true },
+    distinct: ["category"],
+    orderBy: { category: "asc" },
+  });
+  return categories.map((c) => c.category) as string[];
+}
+
+export async function getRecommendedGigs(category?: string) {
+  return prisma.gig.findMany({
+    where: {
+      ...(category ? { category } : {}),
+      rating: { not: null },
+    },
+    include: {
+      seller: { select: { id: true, name: true, image: true } },
+    },
+    orderBy: { rating: "desc" },
+    take: 5,
+  });
 }

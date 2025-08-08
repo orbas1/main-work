@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Gig" ADD COLUMN "deliveryTime" INTEGER NOT NULL DEFAULT 3;
+ALTER TABLE "Gig" ADD COLUMN "location" TEXT;
