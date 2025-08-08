@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import speakeasy from "speakeasy";
 
 export async function getUserByEmail(email: string) {
   return prisma.user.findUnique({ where: { email } });
@@ -44,10 +45,23 @@ export async function registerUser(data: {
   });
 }
 
-export async function validateUser(email: string, password: string) {
+export async function validateUser(
+  email: string,
+  password: string,
+  code?: string
+) {
   const user = await getUserByEmail(email);
   if (!user) return null;
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) return null;
+  if (user.twoFactorEnabled) {
+    if (!code) throw new Error("2FA_REQUIRED");
+    const verified = speakeasy.totp.verify({
+      secret: user.twoFactorSecret ?? "",
+      encoding: "base32",
+      token: code,
+    });
+    if (!verified) throw new Error("INVALID_2FA");
+  }
   return { id: String(user.id), email: user.email, name: user.name };
 }
