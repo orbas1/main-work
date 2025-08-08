@@ -45,6 +45,24 @@ function generateClient() {
   }
 }
 
+function seedDatabase() {
+  // Run seeding in production-like environments where migrate reset didn't run
+  if (
+    !(process.env.VERCEL || process.env.NODE_ENV === 'production') ||
+    !process.env.DATABASE_URL
+  ) {
+    console.log('Skipping prisma db seed');
+    return;
+  }
+
+  try {
+    execSync('npx prisma db seed', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('Failed to seed database', error);
+  }
+}
+
 deployMigrations();
 resetDatabase();
 generateClient();
+seedDatabase();
