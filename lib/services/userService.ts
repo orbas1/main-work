@@ -19,6 +19,11 @@ export async function getUserProfile(email: string) {
       introVideo: true,
       resume: true,
       coverLetter: true,
+      showPortfolio: true,
+      showReviews: true,
+      showActivityFeed: true,
+      themeColor: true,
+      bannerUrl: true,
     },
   });
 }
@@ -37,6 +42,11 @@ export interface UpdateProfileData {
   introVideo?: string;
   resume?: string;
   coverLetter?: string;
+  showPortfolio?: boolean;
+  showReviews?: boolean;
+  showActivityFeed?: boolean;
+  themeColor?: string;
+  bannerUrl?: string;
 }
 
 export async function updateUserProfile(email: string, data: UpdateProfileData) {
@@ -59,6 +69,11 @@ export async function updateUserProfile(email: string, data: UpdateProfileData) 
       introVideo: true,
       resume: true,
       coverLetter: true,
+      showPortfolio: true,
+      showReviews: true,
+      showActivityFeed: true,
+      themeColor: true,
+      bannerUrl: true,
     },
   });
 }

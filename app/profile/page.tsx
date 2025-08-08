@@ -15,9 +15,14 @@ export default async function ProfilePage() {
         <Avatar name={user?.name || "User"} src={user?.image || undefined} size="xl" />
         <Heading size="md">{user?.name}</Heading>
         <Text>{user?.email}</Text>
-        <Button as={Link} href="/profile/edit" colorScheme="brand">
-          Edit Profile
-        </Button>
+        <Stack direction="row" spacing={4}>
+          <Button as={Link} href="/profile/edit" colorScheme="brand">
+            Edit Profile
+          </Button>
+          <Button as={Link} href="/profile/customize" variant="outline" colorScheme="brand">
+            Customize
+          </Button>
+        </Stack>
       </Stack>
     </Box>
   );
