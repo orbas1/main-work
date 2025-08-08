@@ -25,6 +25,8 @@ model User {
   coverLetter String?
   notifications Notification[]
   projects      Project[]
+  messagesSent  Message[]
+  chatParticipants ChatParticipant[]
 }
 
 model Testimonial {
@@ -50,4 +52,31 @@ model Notification {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model Chat {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  messages   Message[]
+  participants ChatParticipant[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    Int
+  sender    User     @relation(fields: [senderId], references: [id])
+  senderId  Int
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model ChatParticipant {
+  chat   Chat @relation(fields: [chatId], references: [id])
+  chatId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@id([chatId, userId])
 }

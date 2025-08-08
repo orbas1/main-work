@@ -64,6 +64,9 @@ export default function Navbar() {
             <MenuItem as={Link} href="/profile">
               Profile
             </MenuItem>
+            <MenuItem as={Link} href="/messages">
+              Messages
+            </MenuItem>
             <MenuItem as={Link} href="/onboarding">
               Onboarding
             </MenuItem>

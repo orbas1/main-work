@@ -1,0 +1,9 @@
+.list {
+  width: 100%;
+}
+.item {
+  cursor: pointer;
+}
+.active {
+  background-color: #edf2f7;
+}

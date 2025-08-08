@@ -40,6 +40,7 @@ async function main() {
   });
 
   const admin = await prisma.user.findUnique({ where: { email: 'admin@example.com' } });
+  const alice = await prisma.user.findUnique({ where: { email: 'alice@example.com' } });
   if (admin) {
     await prisma.project.createMany({
       data: [
@@ -56,6 +57,23 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    if (alice) {
+      const chat = await prisma.chat.create({
+        data: {
+          participants: {
+            create: [{ userId: admin.id }, { userId: alice.id }],
+          },
+        },
+      });
+
+      await prisma.message.createMany({
+        data: [
+          { chatId: chat.id, senderId: admin.id, content: 'Hi Alice, welcome to Orbas!' },
+          { chatId: chat.id, senderId: alice.id, content: 'Thanks Admin, glad to be here.' },
+        ],
+      });
+    }
   }
 }
 

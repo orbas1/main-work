@@ -1,0 +1,34 @@
+-- CreateTable
+CREATE TABLE "Chat" (
+    "id" SERIAL PRIMARY KEY,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" SERIAL PRIMARY KEY,
+    "chatId" INTEGER NOT NULL REFERENCES "Chat"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "senderId" INTEGER NOT NULL REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "content" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "ChatParticipant" (
+    "chatId" INTEGER NOT NULL REFERENCES "Chat"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "userId" INTEGER NOT NULL REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY ("chatId", "userId")
+);
+
+-- Trigger to update "Chat"."updatedAt" on message insert
+CREATE OR REPLACE FUNCTION update_chat_updated_at() RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE "Chat" SET "updatedAt" = CURRENT_TIMESTAMP WHERE id = NEW."chatId";
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER message_inserted
+AFTER INSERT ON "Message"
+FOR EACH ROW EXECUTE FUNCTION update_chat_updated_at();

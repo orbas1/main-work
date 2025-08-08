@@ -49,6 +49,9 @@ export default function DashboardPage() {
       <Button as={Link} href="/onboarding" colorScheme="brand" mb={4}>
         Complete Onboarding
       </Button>
+      <Button as={Link} href="/messages" colorScheme="purple" mb={4} ml={2}>
+        Open Messages
+      </Button>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
         <DashboardCard title="Users">
           <Stat>

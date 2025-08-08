@@ -1,0 +1,16 @@
+.container {
+  height: calc(100vh - 64px);
+}
+.list {
+  overflow-y: auto;
+}
+.window {
+  display: flex;
+  flex-direction: column;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
