@@ -21,8 +21,10 @@ model User {
   portfolio   String?
   title       String?
   image       String?
+  introVideo  String?
   resume      String?
   coverLetter String?
+  projects    Project[]
 }
 
 model Testimonial {

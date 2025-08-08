@@ -15,6 +15,7 @@ export default function FinancialPage() {
     portfolio: data.portfolio || "",
     title: data.title || "",
     image: data.image || "",
+    introVideo: data.introVideo || "",
   });
 
   const router = useRouter();
@@ -34,6 +35,16 @@ export default function FinancialPage() {
     reader.readAsDataURL(file);
   };
 
+  const handleVideo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setForm((prev) => ({ ...prev, introVideo: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   const canSubmit = form.payment && form.title;
 
   const handleNext = () => {
@@ -44,6 +55,7 @@ export default function FinancialPage() {
       portfolio: form.portfolio,
       title: form.title,
       image: form.image,
+      introVideo: form.introVideo,
     });
     router.push("/signup/documents");
   };
@@ -66,6 +78,14 @@ export default function FinancialPage() {
         <Input placeholder="Payment Method" name="payment" value={form.payment} onChange={handleChange} />
         <Input placeholder="Tax ID (optional)" name="tax" value={form.tax} onChange={handleChange} />
         <Input type="file" accept="image/*" name="picture" onChange={handleImage} />
+        <Input type="file" accept="video/*" name="introVideo" onChange={handleVideo} />
+        {form.introVideo && (
+          <video
+            src={form.introVideo}
+            className={styles.videoPreview}
+            controls
+          />
+        )}
         <Textarea placeholder="Bio (250 chars)" name="bio" value={form.bio} onChange={handleChange} maxLength={250} />
         <Input placeholder="Portfolio Link" name="portfolio" value={form.portfolio} onChange={handleChange} />
         <Input placeholder="Profile Title" name="title" value={form.title} onChange={handleChange} />
