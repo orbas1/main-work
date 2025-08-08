@@ -88,6 +88,35 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.jobPost.createMany({
+      data: [
+        {
+          title: 'Senior Backend Developer',
+          description: 'Build scalable APIs using Node.js and PostgreSQL.',
+          requirements: '5+ years experience, Node.js, PostgreSQL',
+          salaryMin: 90000,
+          salaryMax: 120000,
+          benefits: 'Health, 401k',
+          jobType: 'full-time',
+          location: 'Remote',
+          status: 'active',
+          employerId: admin.id,
+        },
+        {
+          title: 'Part-time Designer',
+          description: 'Create marketing materials and product mockups.',
+          requirements: 'Adobe Suite, portfolio required',
+          salaryMin: 30000,
+          salaryMax: 45000,
+          jobType: 'part-time',
+          location: 'New York, NY',
+          status: 'draft',
+          employerId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 
