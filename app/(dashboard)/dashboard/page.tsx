@@ -14,7 +14,9 @@ import {
   Th,
   Td,
   TableCaption,
+  Button,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import DashboardCard from "@/components/DashboardCard";
 import LineChart from "@/components/LineChart";
 import api from "@/lib/api";
@@ -44,6 +46,9 @@ export default function DashboardPage() {
 
   return (
     <Box className={styles.container}>
+      <Button as={Link} href="/onboarding" colorScheme="brand" mb={4}>
+        Complete Onboarding
+      </Button>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
         <DashboardCard title="Users">
           <Stat>
