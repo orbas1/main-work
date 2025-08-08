@@ -28,6 +28,7 @@ model User {
   subscriptions Subscription[]
   paymentMethods PaymentMethod[]
   transactions   Transaction[]
+  gigs         Gig[]
 }
 
 model Testimonial {
@@ -86,5 +87,15 @@ model Transaction {
   currency    String   @default("USD")
   description String
   status      String
+model Gig {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Int
+  category    String?
+  thumbnail   String?
+  rating      Float?
+  seller      User     @relation(fields: [sellerId], references: [id])
+  sellerId    Int
   createdAt   DateTime @default(now())
 }

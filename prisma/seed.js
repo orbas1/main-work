@@ -56,6 +56,36 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.gig.createMany({
+      data: [
+        {
+          title: 'Logo Design',
+          description: 'Professional logo design for your brand',
+          price: 100,
+          category: 'Design',
+          sellerId: admin.id,
+          rating: 4.8,
+        },
+        {
+          title: 'Website Development',
+          description: 'Responsive website built with modern technologies',
+          price: 500,
+          category: 'Development',
+          sellerId: admin.id,
+          rating: 4.5,
+        },
+        {
+          title: 'SEO Audit',
+          description: 'Comprehensive SEO analysis and recommendations',
+          price: 200,
+          category: 'Marketing',
+          sellerId: admin.id,
+          rating: 4.7,
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 
