@@ -10,8 +10,14 @@ export async function getUserProfile(email: string) {
       phone: true,
       location: true,
       bio: true,
+      expertise: true,
+      payment: true,
+      taxId: true,
+      portfolio: true,
       title: true,
       image: true,
+      resume: true,
+      coverLetter: true,
     },
   });
 }
@@ -21,8 +27,14 @@ export interface UpdateProfileData {
   phone?: string;
   location?: string;
   bio?: string;
+  expertise?: string;
+  payment?: string;
+  taxId?: string;
+  portfolio?: string;
   title?: string;
   image?: string;
+  resume?: string;
+  coverLetter?: string;
 }
 
 export async function updateUserProfile(email: string, data: UpdateProfileData) {
@@ -36,8 +48,14 @@ export async function updateUserProfile(email: string, data: UpdateProfileData) 
       phone: true,
       location: true,
       bio: true,
+      expertise: true,
+      payment: true,
+      taxId: true,
+      portfolio: true,
       title: true,
       image: true,
+      resume: true,
+      coverLetter: true,
     },
   });
 }
