@@ -30,6 +30,8 @@ The project expects a PostgreSQL connection string and NextAuth configuration:
 - `NEXTAUTH_SECRET` – long random string used to sign authentication tokens
 - `NEXTAUTH_URL` – public URL where the application is hosted (defaults to `http://localhost:3000` during development)
 
+For production deployments (e.g., Vercel), be sure to configure these variables in your hosting environment settings, especially `NEXTAUTH_SECRET`, to avoid runtime errors.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
