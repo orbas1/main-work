@@ -31,6 +31,8 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  taughtCourses    Course[]        @relation("CourseTeacher")
+  enrollments      Enrollment[]    @relation("EnrollmentStudent")
 }
 
 model Testimonial {
@@ -132,4 +134,23 @@ model Gig {
   seller      User     @relation(fields: [sellerId], references: [id])
   sellerId    Int
   createdAt   DateTime @default(now())
+}
+
+model Course {
+  id          Int       @id @default(autoincrement())
+  title       String
+  teacher     User      @relation("CourseTeacher", fields: [teacherId], references: [id])
+  teacherId   Int
+  nextSession DateTime?
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id        Int     @id @default(autoincrement())
+  course    Course  @relation(fields: [courseId], references: [id])
+  courseId  Int
+  student   User    @relation("EnrollmentStudent", fields: [studentId], references: [id])
+  studentId Int
+  progress  Float   @default(0)
+  grade     Float?
 }
