@@ -16,6 +16,7 @@ export async function getUserProfile(email: string) {
       portfolio: true,
       title: true,
       image: true,
+      introVideo: true,
       resume: true,
       coverLetter: true,
     },
@@ -33,6 +34,7 @@ export interface UpdateProfileData {
   portfolio?: string;
   title?: string;
   image?: string;
+  introVideo?: string;
   resume?: string;
   coverLetter?: string;
 }
@@ -54,6 +56,7 @@ export async function updateUserProfile(email: string, data: UpdateProfileData) 
       portfolio: true,
       title: true,
       image: true,
+      introVideo: true,
       resume: true,
       coverLetter: true,
     },
