@@ -133,6 +133,30 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.job.createMany({
+      data: [
+        {
+          title: 'Frontend Developer',
+          company: 'Tech Corp',
+          location: 'Remote',
+          salaryMin: 70000,
+          salaryMax: 90000,
+          type: 'full-time',
+          description: 'Build and maintain web applications using React and TypeScript.',
+        },
+        {
+          title: 'Marketing Specialist',
+          company: 'Growth Gurus',
+          location: 'New York, NY',
+          salaryMin: 50000,
+          salaryMax: 65000,
+          type: 'contract',
+          description: 'Develop marketing strategies and manage campaigns across channels.',
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 
