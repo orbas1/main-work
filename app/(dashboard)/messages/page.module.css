@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+}
+
+.sidebar {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.chat {
+  height: 80vh;
+}
