@@ -14,6 +14,13 @@ export async function markNotificationRead(id: number, userId: number) {
   });
 }
 
+export async function markAllNotificationsRead(userId: number) {
+  return prisma.notification.updateMany({
+    where: { userId, read: false },
+    data: { read: true },
+  });
+}
+
 export async function createNotification(userId: number, message: string) {
   return prisma.notification.create({
     data: { userId, message },

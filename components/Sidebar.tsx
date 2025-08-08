@@ -1,19 +1,21 @@
 "use client";
 
-import { VStack, Link as ChakraLink } from "@chakra-ui/react";
+import { VStack, Link as ChakraLink, HStack, Badge } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
+import { useNotifications } from "./NotificationContext";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { unreadCount } = useNotifications();
   const links = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/search", label: "Search" },
     { href: "/onboarding", label: "Onboarding" },
     { href: "/profile", label: "Profile" },
     { href: "/profile/edit", label: "Edit Profile" },
-    { href: "/notifications", label: "Notifications" },
+    { href: "/notifications", label: "Notifications", badge: unreadCount },
   ];
 
   return (
@@ -39,7 +41,10 @@ export default function Sidebar() {
           _hover={{ bg: "gray.100" }}
           className={`${styles.link} ${pathname === link.href ? styles.active : ""}`}
         >
-          {link.label}
+          <HStack justify="space-between" w="full">
+            <span>{link.label}</span>
+            {link.badge ? <Badge colorScheme="red">{link.badge}</Badge> : null}
+          </HStack>
         </ChakraLink>
       ))}
     </VStack>

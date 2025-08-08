@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { signOut, useSession, signIn } from "next-auth/react";
+import NotificationBell from "./NotificationBell";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./Navbar.module.css";
@@ -56,23 +57,26 @@ export default function Navbar() {
         onKeyDown={handleKeyDown}
       />
       {session ? (
-        <Menu>
-          <MenuButton>
-            <Avatar name={session.user?.name || "User"} src={session.user?.image || undefined} size="sm" />
-          </MenuButton>
-          <MenuList>
-            <MenuItem as={Link} href="/profile">
-              Profile
-            </MenuItem>
-            <MenuItem as={Link} href="/onboarding">
-              Onboarding
-            </MenuItem>
-            <MenuItem as={Link} href="/profile/edit">
-              Edit Profile
-            </MenuItem>
-            <MenuItem onClick={() => signOut()}>Logout</MenuItem>
-          </MenuList>
-        </Menu>
+        <HStack spacing={4}>
+          <NotificationBell />
+          <Menu>
+            <MenuButton>
+              <Avatar name={session.user?.name || "User"} src={session.user?.image || undefined} size="sm" />
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={Link} href="/profile">
+                Profile
+              </MenuItem>
+              <MenuItem as={Link} href="/onboarding">
+                Onboarding
+              </MenuItem>
+              <MenuItem as={Link} href="/profile/edit">
+                Edit Profile
+              </MenuItem>
+              <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        </HStack>
       ) : (
         <Button colorScheme="brand" onClick={() => signIn()}>
           Login

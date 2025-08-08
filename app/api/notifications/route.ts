@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import {
   getUserNotifications,
   markNotificationRead,
+  markAllNotificationsRead,
 } from "@/lib/services/notificationService";
 
 export async function GET() {
@@ -22,11 +23,12 @@ export async function PATCH(req: Request) {
   if (!id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const { notificationId } = await req.json();
-  if (!notificationId) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  const { notificationId } = await req.json().catch(() => ({}));
+  if (notificationId) {
+    await markNotificationRead(Number(notificationId), id);
+  } else {
+    await markAllNotificationsRead(id);
   }
-  await markNotificationRead(Number(notificationId), id);
   return NextResponse.json({ success: true });
 }
 
