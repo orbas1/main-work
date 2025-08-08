@@ -19,6 +19,8 @@ export const api = {
   get: <T>(path: string, init?: RequestInit) => request<T>(path, init),
   post: <T>(path: string, body: any, init?: RequestInit) =>
     request<T>(path, { ...init, method: "POST", body: JSON.stringify(body) }),
+  put: <T>(path: string, body: any, init?: RequestInit) =>
+    request<T>(path, { ...init, method: "PUT", body: JSON.stringify(body) }),
 };
 
 export default api;
