@@ -22,6 +22,7 @@ import DashboardCard from "@/components/DashboardCard";
 import LineChart from "@/components/LineChart";
 import api from "@/lib/api";
 import styles from "./page.module.css";
+import type { Contract } from "@/components/ContractCard";
 
 interface User {
   id: number;
@@ -39,10 +40,15 @@ interface Project {
 export default function DashboardPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
 
   useEffect(() => {
     api.get<User[]>("/users").then(setUsers).catch(console.error);
     api.get<Project[]>("/projects").then(setProjects).catch(console.error);
+    api
+      .get<Contract[]>("/contracts?status=ACTIVE")
+      .then(setContracts)
+      .catch(console.error);
   }, []);
 
   return (
@@ -58,7 +64,7 @@ export default function DashboardPage() {
           Messages
         </Button>
       </HStack>
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
+      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6} mb={10}>
         <DashboardCard title="Users">
           <Stat>
             <StatLabel>Total Users</StatLabel>
@@ -75,6 +81,12 @@ export default function DashboardPage() {
           <Stat>
             <StatLabel>Monthly</StatLabel>
             <StatNumber>$0</StatNumber>
+          </Stat>
+        </DashboardCard>
+        <DashboardCard title="Contracts">
+          <Stat>
+            <StatLabel>Active Contracts</StatLabel>
+            <StatNumber>{contracts.length}</StatNumber>
           </Stat>
         </DashboardCard>
       </SimpleGrid>

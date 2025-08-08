@@ -8,29 +8,31 @@ datasource db {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  name             String?
-  email            String            @unique
-  password         String
-  phone            String?
-  location         String?
-  bio              String?
-  expertise        String?
-  payment          String?
-  taxId            String?
-  portfolio        String?
-  title            String?
-  image            String?
-  resume           String?
-  coverLetter      String?
-  notifications    Notification[]
-  projects         Project[]
-  subscriptions    Subscription[]
-  paymentMethods   PaymentMethod[]
-  transactions     Transaction[]
-  chatParticipants ChatParticipant[]
-  messages         Message[]
-  gigs             Gig[]
+  id                  Int               @id @default(autoincrement())
+  name                String?
+  email               String            @unique
+  password            String
+  phone               String?
+  location            String?
+  bio                 String?
+  expertise           String?
+  payment             String?
+  taxId               String?
+  portfolio           String?
+  title               String?
+  image               String?
+  resume              String?
+  coverLetter         String?
+  notifications       Notification[]
+  projects            Project[]
+  subscriptions       Subscription[]
+  paymentMethods      PaymentMethod[]
+  transactions        Transaction[]
+  chatParticipants    ChatParticipant[]
+  messages            Message[]
+  gigs                Gig[]
+  clientContracts     Contract[]        @relation("ClientContracts")
+  freelancerContracts Contract[]        @relation("FreelancerContracts")
 }
 
 model Testimonial {
@@ -132,4 +134,47 @@ model Gig {
   seller      User     @relation(fields: [sellerId], references: [id])
   sellerId    Int
   createdAt   DateTime @default(now())
+}
+
+enum ContractStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  TERMINATED
+}
+
+enum MilestoneStatus {
+  PENDING
+  REVIEW
+  APPROVED
+  PAID
+}
+
+model Contract {
+  id           Int            @id @default(autoincrement())
+  title        String
+  description  String?
+  client       User           @relation("ClientContracts", fields: [clientId], references: [id])
+  clientId     Int
+  freelancer   User           @relation("FreelancerContracts", fields: [freelancerId], references: [id])
+  freelancerId Int
+  startDate    DateTime?
+  endDate      DateTime?
+  totalValue   Float
+  status       ContractStatus @default(PENDING)
+  milestones   Milestone[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Milestone {
+  id         Int             @id @default(autoincrement())
+  title      String
+  amount     Float
+  dueDate    DateTime?
+  status     MilestoneStatus @default(PENDING)
+  contract   Contract        @relation(fields: [contractId], references: [id])
+  contractId Int
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
 }
