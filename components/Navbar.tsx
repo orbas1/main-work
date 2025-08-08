@@ -46,6 +46,9 @@ export default function Navbar() {
             <MenuItem as={Link} href="/profile">
               Profile
             </MenuItem>
+            <MenuItem as={Link} href="/profile/edit">
+              Edit Profile
+            </MenuItem>
             <MenuItem onClick={() => signOut()}>Logout</MenuItem>
           </MenuList>
         </Menu>

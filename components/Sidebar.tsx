@@ -10,6 +10,7 @@ export default function Sidebar() {
   const links = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/profile", label: "Profile" },
+    { href: "/profile/edit", label: "Edit Profile" },
   ];
 
   return (
