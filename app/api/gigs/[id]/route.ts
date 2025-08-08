@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getGig, updateGig, deleteGig } from "@/lib/services/gigService";
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: any) {
   const session = await getServerSession(authOptions);
   const sellerId = session?.user?.id ? Number(session.user.id) : undefined;
   const id = Number(params.id);
@@ -16,7 +16,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   return NextResponse.json(gig);
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: any) {
   const session = await getServerSession(authOptions);
   const sellerId = session?.user?.id ? Number(session.user.id) : undefined;
   const id = Number(params.id);

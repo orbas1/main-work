@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 
 export interface GigFilters {
   search?: string;
@@ -12,12 +13,12 @@ export interface GigFilters {
 
 export async function getGigs(filters: GigFilters = {}) {
   const { search, category, minPrice, maxPrice, sort, sellerId, status } = filters;
-  const orderBy =
+  const orderBy: Prisma.GigOrderByWithRelationInput =
     sort === "price"
-      ? { price: "asc" }
+      ? { price: "asc" as const }
       : sort === "rating"
-      ? { rating: "desc" }
-      : { createdAt: "desc" };
+      ? { rating: "desc" as const }
+      : { createdAt: "desc" as const };
 
   return prisma.gig.findMany({
     where: {

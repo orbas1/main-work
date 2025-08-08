@@ -87,6 +87,9 @@ model Transaction {
   currency    String   @default("USD")
   description String
   status      String
+  createdAt   DateTime @default(now())
+}
+
 model Gig {
   id          Int      @id @default(autoincrement())
   title       String
