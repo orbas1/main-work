@@ -25,6 +25,7 @@ model User {
   coverLetter String?
   notifications Notification[]
   projects      Project[]
+  paymentMethods PaymentMethod[]
 }
 
 model Testimonial {
@@ -49,5 +50,17 @@ model Notification {
   userId    Int
   message   String
   read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model PaymentMethod {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  brand     String
+  last4     String
+  expMonth  Int
+  expYear   Int
+  isDefault Boolean @default(false)
   createdAt DateTime @default(now())
 }

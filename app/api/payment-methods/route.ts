@@ -3,9 +3,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import {
-  getUserNotifications,
-  markNotificationRead,
-} from "@/lib/services/notificationService";
+  getPaymentMethods,
+  addPaymentMethod,
+} from "@/lib/services/paymentMethodService";
+import { getCardBrand } from "@/lib/utils/card";
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -17,11 +18,12 @@ export async function GET() {
     select: { id: true },
   });
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
-  const notifications = await getUserNotifications(user.id);
-  return NextResponse.json(notifications);
+
+  const methods = await getPaymentMethods(user.id);
+  return NextResponse.json(methods);
 }
 
-export async function PATCH(req: Request) {
+export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -31,11 +33,17 @@ export async function PATCH(req: Request) {
     select: { id: true },
   });
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
-  const { notificationId } = await req.json();
-  if (!notificationId) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-  }
-  await markNotificationRead(Number(notificationId), user.id);
-  return NextResponse.json({ success: true });
-}
 
+  const { cardNumber, expMonth, expYear, isDefault } = await req.json();
+  const brand = getCardBrand(cardNumber);
+  const last4 = cardNumber.slice(-4);
+
+  const method = await addPaymentMethod(user.id, {
+    brand,
+    last4,
+    expMonth,
+    expYear,
+    isDefault,
+  });
+  return NextResponse.json(method, { status: 201 });
+}

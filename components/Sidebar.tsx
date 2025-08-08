@@ -14,6 +14,7 @@ export default function Sidebar() {
     { href: "/profile", label: "Profile" },
     { href: "/profile/edit", label: "Edit Profile" },
     { href: "/notifications", label: "Notifications" },
+    { href: "/billing/payment-methods", label: "Payment Methods" },
   ];
 
   return (

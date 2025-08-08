@@ -1,13 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import {
-  getUserNotifications,
-  markNotificationRead,
-} from "@/lib/services/notificationService";
+  setDefaultPaymentMethod,
+  removePaymentMethod,
+} from "@/lib/services/paymentMethodService";
 
-export async function GET() {
+export async function PUT(req: NextRequest, context: any) {
+  const { params } = context;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -17,11 +18,13 @@ export async function GET() {
     select: { id: true },
   });
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
-  const notifications = await getUserNotifications(user.id);
-  return NextResponse.json(notifications);
+
+  const method = await setDefaultPaymentMethod(user.id, parseInt(params.id, 10));
+  return NextResponse.json(method);
 }
 
-export async function PATCH(req: Request) {
+export async function DELETE(req: NextRequest, context: any) {
+  const { params } = context;
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -31,11 +34,7 @@ export async function PATCH(req: Request) {
     select: { id: true },
   });
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
-  const { notificationId } = await req.json();
-  if (!notificationId) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-  }
-  await markNotificationRead(Number(notificationId), user.id);
+
+  await removePaymentMethod(user.id, parseInt(params.id, 10));
   return NextResponse.json({ success: true });
 }
-
