@@ -11,6 +11,7 @@ export default function Sidebar() {
     { href: "/dashboard", label: "Dashboard" },
     { href: "/feed", label: "Live Feed" },
     { href: "/search", label: "Search" },
+    { href: "/headhunter", label: "Headhunter" },
     { href: "/onboarding", label: "Onboarding" },
     { href: "/profile", label: "Profile" },
     { href: "/profile/edit", label: "Edit Profile" },
