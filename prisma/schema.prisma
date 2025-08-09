@@ -13,6 +13,35 @@ enum Role {
 }
 
 model User {
+  id                   Int                    @id @default(autoincrement())
+  name                 String?
+  email                String                 @unique
+  role                 Role                   @default(jobSeeker)
+  password             String
+  phone                String?
+  location             String?
+  bio                  String?
+  expertise            String?
+  payment              String?
+  taxId                String?
+  portfolio            String?
+  title                String?
+  image                String?
+  introVideo           String?
+  resume               String?
+  coverLetter          String?
+  notifications        Notification[]
+  projects             Project[]
+  subscriptions        Subscription[]
+  paymentMethods       PaymentMethod[]
+  transactions         Transaction[]
+  chatParticipants     ChatParticipant[]
+  messages             Message[]
+  gigs                 Gig[]
+  Job                  Job[]
+  Application          Application[]
+  VolunteerOpportunity VolunteerOpportunity[]
+  VolunteerApplication VolunteerApplication[]
   id               Int               @id @default(autoincrement())
   name             String?
   email            String            @unique
@@ -40,6 +69,18 @@ model User {
   gigs             Gig[]
   hostedSessions   NetworkingSession[] @relation("SessionHost")
   sessionRegistrations SessionRegistration[]
+  jobPosts         Job[]               @relation("PostedJobs")
+  jobApplications  JobApplication[]    @relation("ApplicantApplications")
+  employmentsAsEmployee Employment[]   @relation("EmploymentEmployee")
+  employmentsAsEmployer Employment[]   @relation("EmploymentEmployer")
+  contractsAsEmployer EmploymentContract[] @relation("ContractEmployer")
+  contractsAsEmployee EmploymentContract[] @relation("ContractEmployee")
+  jobs             Job[]       @relation("JobEmployer")
+  applications     Application[] @relation("ApplicationApplicant")
+  tasks            Task[]      @relation("TaskCreator")
+  bids             TaskBid[]   @relation("TaskBidder")
+  providedOpportunities Opportunity[] @relation("OpportunityProvider")
+  opportunityApplications OpportunityApplication[] @relation("OpportunityApplicant")
 }
 
 model Testimonial {
@@ -57,7 +98,7 @@ model Feature {
 }
 
 model Solution {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   title       String
   description String
   imageUrl    String
@@ -159,12 +200,79 @@ model Gig {
 }
 
 model Job {
+  id           Int              @id @default(autoincrement())
+  title        String
+  description  String
+  company      String
+  location     String?
+  salary       Int?
+  postedBy     User             @relation("PostedJobs", fields: [postedById], references: [id])
+  postedById   Int
+  applications JobApplication[]
+  contracts    EmploymentContract[]
+  employments  Employment[]
+  status       String           @default("open")
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model JobApplication {
+  id           Int      @id @default(autoincrement())
+  job          Job      @relation(fields: [jobId], references: [id])
+  jobId        Int
+  applicant    User     @relation("ApplicantApplications", fields: [applicantId], references: [id])
+  applicantId  Int
+  status       String   @default("applied")
+  interviews   Interview[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Interview {
+  id           Int            @id @default(autoincrement())
+  application  JobApplication @relation(fields: [applicationId], references: [id])
+  applicationId Int
+  scheduledAt  DateTime
+  location     String?
+  notes        String?
+}
+
+model Employment {
+  id         Int   @id @default(autoincrement())
+  job        Job   @relation(fields: [jobId], references: [id])
+  jobId      Int
+  employee   User  @relation("EmploymentEmployee", fields: [employeeId], references: [id])
+  employeeId Int
+  employer   User  @relation("EmploymentEmployer", fields: [employerId], references: [id])
+  employerId Int
+  startDate  DateTime
+  endDate    DateTime?
+  status     String @default("active")
+  createdAt  DateTime @default(now())
+}
+
+model EmploymentContract {
+  id         Int   @id @default(autoincrement())
+  job        Job   @relation(fields: [jobId], references: [id])
+  jobId      Int
+  employer   User  @relation("ContractEmployer", fields: [employerId], references: [id])
+  employerId Int
+  employee   User  @relation("ContractEmployee", fields: [employeeId], references: [id])
+  employeeId Int
+  terms      String
+  status     String @default("pending")
+  createdAt  DateTime @default(now())
+=======
   id        Int      @id @default(autoincrement())
   title     String
-  employer  User     @relation(fields: [employerId], references: [id])
+  employer  User     @relation("JobEmployer", fields: [employerId], references: [id])
   employerId Int
+  id           Int           @id @default(autoincrement())
+  title        String
+  employer     User          @relation(fields: [employerId], references: [id])
+  employerId   Int
   applications Application[]
-  createdAt DateTime @default(now())
+  createdAt    DateTime      @default(now())
 }
 
 model NetworkingSession {
@@ -194,24 +302,179 @@ model SessionRegistration {
 }
 
 model Application {
-  id          Int      @id @default(autoincrement())
-  job         Job      @relation(fields: [jobId], references: [id])
+  id          Int         @id @default(autoincrement())
+  job         Job         @relation(fields: [jobId], references: [id])
   jobId       Int
-  applicant   User     @relation(fields: [applicantId], references: [id])
+  applicant   User     @relation("ApplicationApplicant", fields: [applicantId], references: [id])
+  applicant   User        @relation(fields: [applicantId], references: [id])
   applicantId Int
-  status      String   @default("pending")
+  status      String      @default("pending")
   interviews  Interview[]
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
 }
 
 model Interview {
-  id             Int       @id @default(autoincrement())
-  application    Application @relation(fields: [applicationId], references: [id])
-  applicationId  Int
-  scheduledAt    DateTime
-  location       String?
-  link           String?
-  status         String    @default("scheduled")
-  notes          String?
-  createdAt      DateTime  @default(now())
+  id            Int         @id @default(autoincrement())
+  application   Application @relation(fields: [applicationId], references: [id])
+  applicationId Int
+  scheduledAt   DateTime
+  location      String?
+  link          String?
+  status        String      @default("scheduled")
+  notes         String?
+  createdAt     DateTime    @default(now())
+}
+
+model VolunteerOpportunity {
+  id           Int                    @id @default(autoincrement())
+  title        String
+  organization String
+  location     String?
+  description  String
+  date         DateTime?
+  creator      User                   @relation(fields: [creatorId], references: [id])
+  creatorId    Int
+  applications VolunteerApplication[]
+  createdAt    DateTime               @default(now())
+}
+
+model VolunteerApplication {
+  id            Int                  @id @default(autoincrement())
+  opportunity   VolunteerOpportunity @relation(fields: [opportunityId], references: [id])
+  opportunityId Int
+  volunteer     User                 @relation(fields: [volunteerId], references: [id])
+  volunteerId   Int
+  status        String               @default("pending")
+  createdAt     DateTime             @default(now())
+}
+
+model Task {
+  id            Int      @id @default(autoincrement())
+  title         String
+  instructions  String?
+  payment       Float    @default(0)
+  deadline      DateTime
+  status        String   @default("active")
+  reschedulable Boolean  @default(true)
+  tasker        User     @relation(fields: [taskerId], references: [id])
+  taskerId      Int
+  rating        Float?
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Experience {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  projects  Int      @default(0)
+  reviews   Int      @default(0)
+  skills    Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Opportunity {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  category     String?
+  location     String?
+  skills       String?
+  compensation Int?
+  status       String   @default("open")
+  provider     User     @relation("OpportunityProvider", fields: [providerId], references: [id])
+  providerId   Int
+  applications OpportunityApplication[]
+  createdAt    DateTime @default(now())
+}
+
+model OpportunityApplication {
+  id            Int         @id @default(autoincrement())
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id])
+  opportunityId Int
+  applicant     User        @relation("OpportunityApplicant", fields: [applicantId], references: [id])
+  applicantId   Int
+  status        String      @default("pending")
+  createdAt     DateTime    @default(now())
+}
+
+model Opportunity {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  category     String?
+  location     String?
+  skills       String?
+  compensation Int?
+  status       String   @default("open")
+  provider     User     @relation("OpportunityProvider", fields: [providerId], references: [id])
+  providerId   Int
+  applications OpportunityApplication[]
+  createdAt    DateTime @default(now())
+}
+
+model OpportunityApplication {
+  id            Int         @id @default(autoincrement())
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id])
+  opportunityId Int
+  applicant     User        @relation("OpportunityApplicant", fields: [applicantId], references: [id])
+  applicantId   Int
+  status        String      @default("pending")
+  createdAt     DateTime    @default(now())
+}
+
+model Task {
+  id           Int       @id @default(autoincrement())
+  title        String
+  description  String
+  category     String?
+  skills       String[]
+  budgetMin    Int?
+  budgetMax    Int?
+  paymentMethod String?
+  deadline     DateTime?
+  media        String[]
+  visibility   String    @default("public")
+  creator      User      @relation("TaskCreator", fields: [creatorId], references: [id])
+  creatorId    Int
+  bids         TaskBid[]
+  status       String    @default("open")
+  createdAt    DateTime  @default(now())
+}
+
+model TaskBid {
+  id        Int      @id @default(autoincrement())
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    Int
+  bidder    User     @relation("TaskBidder", fields: [bidderId], references: [id])
+  bidderId  Int
+  amount    Int
+  message   String?
+  timeline  String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
+
+model Opportunity {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  employer    User     @relation(fields: [employerId], references: [id])
+  employerId  Int
+  skills      String?
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String   @default("open")
+  createdAt   DateTime @default(now())
+}
+
+model NetworkingSession {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  date        DateTime
+  host        User     @relation(fields: [hostId], references: [id])
+  hostId      Int
+  createdAt   DateTime @default(now())
 }
