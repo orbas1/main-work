@@ -67,6 +67,12 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  jobPosts         Job[]               @relation("PostedJobs")
+  jobApplications  JobApplication[]    @relation("ApplicantApplications")
+  employmentsAsEmployee Employment[]   @relation("EmploymentEmployee")
+  employmentsAsEmployer Employment[]   @relation("EmploymentEmployer")
+  contractsAsEmployer EmploymentContract[] @relation("ContractEmployer")
+  contractsAsEmployee EmploymentContract[] @relation("ContractEmployee")
   jobs             Job[]       @relation("JobEmployer")
   applications     Application[] @relation("ApplicationApplicant")
   tasks            Task[]      @relation("TaskCreator")
@@ -192,6 +198,69 @@ model Gig {
 }
 
 model Job {
+  id           Int              @id @default(autoincrement())
+  title        String
+  description  String
+  company      String
+  location     String?
+  salary       Int?
+  postedBy     User             @relation("PostedJobs", fields: [postedById], references: [id])
+  postedById   Int
+  applications JobApplication[]
+  contracts    EmploymentContract[]
+  employments  Employment[]
+  status       String           @default("open")
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model JobApplication {
+  id           Int      @id @default(autoincrement())
+  job          Job      @relation(fields: [jobId], references: [id])
+  jobId        Int
+  applicant    User     @relation("ApplicantApplications", fields: [applicantId], references: [id])
+  applicantId  Int
+  status       String   @default("applied")
+  interviews   Interview[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Interview {
+  id           Int            @id @default(autoincrement())
+  application  JobApplication @relation(fields: [applicationId], references: [id])
+  applicationId Int
+  scheduledAt  DateTime
+  location     String?
+  notes        String?
+}
+
+model Employment {
+  id         Int   @id @default(autoincrement())
+  job        Job   @relation(fields: [jobId], references: [id])
+  jobId      Int
+  employee   User  @relation("EmploymentEmployee", fields: [employeeId], references: [id])
+  employeeId Int
+  employer   User  @relation("EmploymentEmployer", fields: [employerId], references: [id])
+  employerId Int
+  startDate  DateTime
+  endDate    DateTime?
+  status     String @default("active")
+  createdAt  DateTime @default(now())
+}
+
+model EmploymentContract {
+  id         Int   @id @default(autoincrement())
+  job        Job   @relation(fields: [jobId], references: [id])
+  jobId      Int
+  employer   User  @relation("ContractEmployer", fields: [employerId], references: [id])
+  employerId Int
+  employee   User  @relation("ContractEmployee", fields: [employeeId], references: [id])
+  employeeId Int
+  terms      String
+  status     String @default("pending")
+  createdAt  DateTime @default(now())
+=======
   id        Int      @id @default(autoincrement())
   title     String
   employer  User     @relation("JobEmployer", fields: [employerId], references: [id])

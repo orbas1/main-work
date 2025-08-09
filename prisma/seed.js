@@ -134,6 +134,24 @@ async function main() {
       skipDuplicates: true,
     });
 
+    await prisma.job.createMany({
+      data: [
+        {
+          title: 'Frontend Developer',
+          description: 'Build modern UIs with React and Chakra UI',
+          company: 'Tech Corp',
+          location: 'Remote',
+          salary: 80000,
+          postedById: admin.id,
+        },
+        {
+          title: 'Backend Engineer',
+          description: 'Develop scalable APIs with Node and Prisma',
+          company: 'Innovate LLC',
+          location: 'New York, NY',
+          salary: 95000,
+          postedById: admin.id,
+=======
     await prisma.opportunity.createMany({
       data: [
         {
@@ -187,6 +205,13 @@ async function main() {
       skipDuplicates: true,
     });
 
+    const job = await prisma.job.findFirst({ where: { postedById: admin.id } });
+    const alice = await prisma.user.findUnique({ where: { email: 'alice@example.com' } });
+    if (job && alice) {
+      await prisma.jobApplication.create({
+        data: { jobId: job.id, applicantId: alice.id },
+      });
+    }
 
 
     await prisma.experience.create({
