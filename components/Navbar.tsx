@@ -73,13 +73,23 @@ export default function Navbar() {
             <MenuItem as={Link} href="/billing">
               Billing
             </MenuItem>
+            <MenuItem as={Link} href="/services">
+              Services
+            <MenuItem as={Link} href="/sessions">
+              Sessions
+            </MenuItem>
             <MenuItem onClick={() => signOut()}>Logout</MenuItem>
           </MenuList>
         </Menu>
       ) : (
-        <Button colorScheme="brand" onClick={() => signIn()}>
-          Login
-        </Button>
+        <HStack spacing={3}>
+          <Button variant="ghost" onClick={() => signIn()}>
+            Login
+          </Button>
+          <Button colorScheme="brand" as={Link} href="/signup">
+            Sign Up
+          </Button>
+        </HStack>
       )}
     </Flex>
   );
