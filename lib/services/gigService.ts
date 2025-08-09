@@ -46,6 +46,7 @@ export interface CreateGigData {
   category?: string;
   thumbnail?: string;
   sellerId: number;
+  status?: string;
 }
 
 export async function createGig(data: CreateGigData) {
@@ -53,10 +54,20 @@ export async function createGig(data: CreateGigData) {
 }
 
 export async function getGig(id: number) {
-  return prisma.gig.findUnique({ where: { id } });
+  return prisma.gig.findUnique({
+    where: { id },
+    include: {
+      seller: {
+        select: { id: true, name: true, image: true },
+      },
+    },
+  });
 }
 
-export async function updateGig(id: number, data: Partial<CreateGigData> & { status?: string }) {
+export async function updateGig(
+  id: number,
+  data: Partial<CreateGigData> & { status?: string }
+) {
   return prisma.gig.update({ where: { id }, data });
 }
 
@@ -64,6 +75,20 @@ export async function deleteGig(id: number) {
   return prisma.gig.delete({ where: { id } });
 }
 
+export async function incrementGigViews(id: number) {
+  return prisma.gig.update({ where: { id }, data: { views: { increment: 1 } } });
+}
+
 export async function getSellerGigs(sellerId: number) {
   return getGigs({ sellerId });
+}
+
+export async function getTopGigs(limit = 3) {
+  return prisma.gig.findMany({
+    orderBy: { rating: "desc" },
+    take: limit,
+    include: {
+      seller: { select: { id: true, name: true, image: true } },
+    },
+  });
 }

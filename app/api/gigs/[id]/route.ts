@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getGig, updateGig, deleteGig } from "@/lib/services/gigService";
+import { getGig, updateGig, deleteGig, incrementGigViews } from "@/lib/services/gigService";
+
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const id = Number(params.id);
+  const gig = await getGig(id);
+  if (!gig) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  await incrementGigViews(id);
+  return NextResponse.json(gig);
+}
 
 export async function PUT(req: NextRequest, { params }: any) {
   const session = await getServerSession(authOptions);

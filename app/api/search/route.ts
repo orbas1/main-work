@@ -6,6 +6,11 @@ export async function GET(req: NextRequest) {
   const q = searchParams.get("q") || "";
   const location = searchParams.get("location") || undefined;
   const expertise = searchParams.get("expertise") || undefined;
+  const skillsParam = searchParams.get("skills") || "";
+  const skills = skillsParam
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   const users = await prisma.user.findMany({
     where: {
@@ -25,6 +30,13 @@ export async function GET(req: NextRequest) {
         expertise
           ? { expertise: { contains: expertise, mode: "insensitive" } }
           : {},
+        skills.length
+          ? {
+              AND: skills.map((skill) => ({
+                expertise: { contains: skill, mode: "insensitive" },
+              })),
+            }
+          : {},
       ],
     },
     select: {
@@ -34,6 +46,7 @@ export async function GET(req: NextRequest) {
       location: true,
       expertise: true,
       image: true,
+      portfolio: true,
     },
     take: 50,
   });

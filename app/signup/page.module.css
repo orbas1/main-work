@@ -6,3 +6,8 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.locationRow {
+  display: flex;
+  gap: 0.5rem;
+}
