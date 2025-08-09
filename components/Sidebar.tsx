@@ -10,6 +10,7 @@ export default function Sidebar() {
   const links = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/feed", label: "Live Feed" },
+    { href: "/sessions", label: "Sessions" },
     { href: "/search", label: "Search" },
     { href: "/onboarding", label: "Onboarding" },
     { href: "/profile", label: "Profile" },
@@ -22,6 +23,18 @@ export default function Sidebar() {
     { href: "/gig-management", label: "Manage Gigs" },
     { href: "/session-management", label: "Session Management" },
     { href: "/connections", label: "Connections" },
+    { href: "/employment", label: "Employment" },
+    { href: "/opportunities", label: "Opportunities" },
+    { href: "/networking", label: "Networking" },
+    { href: "/tasks", label: "Tasks" },
+    { href: "/volunteer/opportunities", label: "Volunteer Opportunities" },
+    { href: "/volunteer/applications", label: "Volunteer Tracking" },
+    { href: "/progress", label: "Progress" },
+    { href: "/volunteering", label: "Volunteering" },
+    { href: "/tasks", label: "Tasks" },
+    { href: "/experience", label: "Experience" },
+    { href: "/opportunities", label: "Browse Opportunities" },
+    { href: "/opportunity-management", label: "Manage Opportunities" },
   ];
 
   return (
