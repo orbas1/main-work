@@ -1,0 +1,9 @@
+.container {
+  width: 100%;
+}
+.taskRow:hover {
+  background-color: #f7fafc;
+}
+.calendar {
+  margin-top: 1rem;
+}

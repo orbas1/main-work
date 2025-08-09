@@ -22,6 +22,10 @@ export default function Sidebar() {
     { href: "/gig-management", label: "Manage Gigs" },
     { href: "/progress", label: "Progress" },
     { href: "/volunteering", label: "Volunteering" },
+    { href: "/tasks", label: "Tasks" },
+    { href: "/experience", label: "Experience" },
+    { href: "/opportunities", label: "Browse Opportunities" },
+    { href: "/opportunity-management", label: "Manage Opportunities" },
   ];
 
   return (
