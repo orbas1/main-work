@@ -92,6 +92,8 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  coursesTaught    Course[]      @relation("CourseTeacher")
+  enrollments      Enrollment[]  @relation("EnrollmentStudent")
   goals            Goal[]
   taughtCourses    Course[]        @relation("CourseTeacher")
   enrollments      Enrollment[]    @relation("EnrollmentStudent")
@@ -234,6 +236,36 @@ model Gig {
   createdAt   DateTime @default(now())
 }
 
+model Course {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  streamUrl   String?
+  teacher     User      @relation("CourseTeacher", fields: [teacherId], references: [id])
+  teacherId   Int
+  modules     Module[]
+  enrollments Enrollment[]
+  createdAt   DateTime  @default(now())
+}
+
+model Module {
+  id       Int    @id @default(autoincrement())
+  title    String
+  content  String?
+  order    Int    @default(0)
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
+}
+
+model Enrollment {
+  id        Int   @id @default(autoincrement())
+  student   User  @relation("EnrollmentStudent", fields: [studentId], references: [id])
+  studentId Int
+  course    Course @relation(fields: [courseId], references: [id])
+  courseId  Int
+  progress  Float @default(0)
+
+  @@unique([studentId, courseId])
 model Goal {
   id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id])
