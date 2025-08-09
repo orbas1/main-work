@@ -7,16 +7,20 @@ const config: ThemeConfig = {
 
 const colors = {
   brand: {
-    50: "#f2f5ff",
-    100: "#e6ebff",
-    200: "#c1ccff",
-    300: "#9cacff",
-    400: "#758dff",
-    500: "#5e72e4",
-    600: "#4a5bb4",
-    700: "#364385",
-    800: "#222b55",
-    900: "#101326",
+    50: "#e8edff",
+    100: "#c6d4ff",
+    200: "#a3bbff",
+    300: "#7aa0ff",
+    400: "#4f84ff",
+    500: "#4169e1",
+    600: "#3252b3",
+    700: "#243b84",
+    800: "#142455",
+    900: "#070e27",
+  },
+  text: {
+    primary: "#0d0d0d",
+    secondary: "#2f2f2f",
   },
 };
 
@@ -24,13 +28,33 @@ const theme = extendTheme({
   config,
   colors,
   fonts: {
-    heading: "Open Sans, sans-serif",
-    body: "Open Sans, sans-serif",
+    heading: "Poppins, sans-serif",
+    body: "Poppins, sans-serif",
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        borderRadius: "md",
+        fontWeight: 400,
+        boxShadow: "sm",
+      },
+      variants: {
+        solid: {
+          bg: "brand.500",
+          color: "white",
+          _hover: { bg: "brand.600", boxShadow: "md" },
+        },
+      },
+      defaultProps: {
+        colorScheme: "brand",
+      },
+    },
   },
   styles: {
     global: {
       body: {
-        bg: "gray.50",
+        bg: "white",
+        color: "black",
       },
     },
   },
