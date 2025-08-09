@@ -67,6 +67,7 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  services         Service[]
   jobs             Job[]            @relation("JobEmployer")
   applications     Application[]    @relation("JobApplicant")
   hostedSessions   NetworkingSession[]
@@ -210,6 +211,11 @@ model Service {
   title       String
   description String
   price       Int
+  category    String?
+  location    String?
+  status      String   @default("active")
+  seller      User     @relation(fields: [sellerId], references: [id])
+  sellerId    Int
   status      String   @default("active")
   seller      User     @relation(fields: [sellerId], references: [id])
   sellerId    Int
