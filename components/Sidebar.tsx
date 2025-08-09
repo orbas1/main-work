@@ -20,6 +20,7 @@ export default function Sidebar() {
     { href: "/applications", label: "Applications" },
     { href: "/gigs", label: "Browse Gigs" },
     { href: "/gig-management", label: "Manage Gigs" },
+    { href: "/tasks", label: "Tasks" },
   ];
 
   return (
