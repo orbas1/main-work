@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Gig } from "./GigCard";
+import { Gig } from "@/lib/types/gig";
 
 interface FavoritesContextValue {
   favorites: Gig[];
