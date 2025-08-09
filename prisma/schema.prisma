@@ -236,6 +236,15 @@ model Gig {
   createdAt   DateTime @default(now())
 }
 
+model Interview {
+  id             Int      @id @default(autoincrement())
+  interviewer    User     @relation(fields: [interviewerId], references: [id])
+  interviewerId  Int
+  candidateEmail String
+  scheduledAt    DateTime
+  meetingLink    String
+  status         String   @default("scheduled")
+  createdAt      DateTime @default(now())
 model Course {
   id          Int       @id @default(autoincrement())
   title       String
