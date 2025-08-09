@@ -133,6 +133,26 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.volunteerOpportunity.createMany({
+      data: [
+        {
+          title: 'Community Clean-Up',
+          organization: 'City Helpers',
+          location: 'Remote',
+          description: 'Assist in organizing a community clean-up event.',
+          creatorId: admin.id,
+        },
+        {
+          title: 'Food Bank Support',
+          organization: 'Helping Hands',
+          location: 'New York',
+          description: 'Help sort and pack food donations for families in need.',
+          creatorId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 
