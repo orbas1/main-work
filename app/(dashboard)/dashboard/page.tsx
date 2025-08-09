@@ -66,6 +66,12 @@ export default function DashboardPage() {
         <Button as={Link} href="/applications" colorScheme="brand" variant="outline">
           Applications
         </Button>
+        <Button as={Link} href="/session-management" colorScheme="brand" variant="outline">
+          Session Management
+        </Button>
+        <Button as={Link} href="/connections" colorScheme="brand" variant="outline">
+          Connections
+        </Button>
       </HStack>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
         <DashboardCard title="Users">

@@ -38,6 +38,12 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  jobs             Job[]            @relation("JobEmployer")
+  applications     Application[]    @relation("JobApplicant")
+  hostedSessions   NetworkingSession[]
+  sessionEntries   SessionParticipant[]
+  connectionsOwned Connection[]       @relation("ConnectionOwner")
+  connectionsReceived Connection[]    @relation("ConnectionTarget")
 }
 
 model Testimonial {
@@ -157,23 +163,23 @@ model Gig {
 }
 
 model Job {
-  id        Int      @id @default(autoincrement())
-  title     String
-  employer  User     @relation(fields: [employerId], references: [id])
-  employerId Int
+  id           Int           @id @default(autoincrement())
+  title        String
+  employer     User          @relation("JobEmployer", fields: [employerId], references: [id])
+  employerId   Int
   applications Application[]
-  createdAt DateTime @default(now())
+  createdAt    DateTime      @default(now())
 }
 
 model Application {
-  id          Int      @id @default(autoincrement())
-  job         Job      @relation(fields: [jobId], references: [id])
-  jobId       Int
-  applicant   User     @relation(fields: [applicantId], references: [id])
-  applicantId Int
-  status      String   @default("pending")
-  interviews  Interview[]
-  createdAt   DateTime @default(now())
+  id           Int        @id @default(autoincrement())
+  job          Job        @relation(fields: [jobId], references: [id])
+  jobId        Int
+  applicant    User       @relation("JobApplicant", fields: [applicantId], references: [id])
+  applicantId  Int
+  status       String     @default("pending")
+  interviews   Interview[]
+  createdAt    DateTime   @default(now())
 }
 
 model Interview {
@@ -186,4 +192,33 @@ model Interview {
   status         String    @default("scheduled")
   notes          String?
   createdAt      DateTime  @default(now())
+}
+
+model NetworkingSession {
+  id          Int      @id @default(autoincrement())
+  host        User     @relation(fields: [hostId], references: [id])
+  hostId      Int
+  title       String
+  status      String   @default("live")
+  duration    Int      @default(60)
+  participants SessionParticipant[]
+  createdAt   DateTime @default(now())
+}
+
+model SessionParticipant {
+  id        Int               @id @default(autoincrement())
+  session   NetworkingSession @relation(fields: [sessionId], references: [id])
+  sessionId Int
+  user      User              @relation(fields: [userId], references: [id])
+  userId    Int
+}
+
+model Connection {
+  id        Int      @id @default(autoincrement())
+  owner     User     @relation("ConnectionOwner", fields: [ownerId], references: [id])
+  ownerId   Int
+  target    User     @relation("ConnectionTarget", fields: [targetId], references: [id])
+  targetId  Int
+  status    String   @default("new")
+  createdAt DateTime @default(now())
 }
