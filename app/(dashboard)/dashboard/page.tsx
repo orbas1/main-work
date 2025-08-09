@@ -18,8 +18,10 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import DashboardCard from "@/components/DashboardCard";
 import LineChart from "@/components/LineChart";
+import RoleSwitcher, { Role } from "@/components/RoleSwitcher";
 import api from "@/lib/api";
 import styles from "./page.module.css";
 
@@ -36,17 +38,63 @@ interface Project {
   status: string;
 }
 
+interface ClientSummary {
+  activeContracts: number;
+  totalSpend: number;
+}
+
+interface FreelancerSummary {
+  activeContracts: number;
+  totalEarnings: number;
+}
+
 export default function DashboardPage() {
+  const { data: session } = useSession();
   const [users, setUsers] = useState<User[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [role, setRole] = useState<Role>("client");
+  const [clientSummary, setClientSummary] = useState<ClientSummary | null>(null);
+  const [freelancerSummary, setFreelancerSummary] =
+    useState<FreelancerSummary | null>(null);
 
   useEffect(() => {
     api.get<User[]>("/users").then(setUsers).catch(console.error);
     api.get<Project[]>("/projects").then(setProjects).catch(console.error);
   }, []);
 
+  useEffect(() => {
+    const userId = session?.user.id;
+    if (!userId) return;
+    const path = role === "client" ? "/dashboard/client" : "/dashboard/freelancer";
+    api
+      .get<ClientSummary | FreelancerSummary>(`${path}?userId=${userId}`)
+      .then((data) => {
+        if (role === "client") {
+          setClientSummary(data as ClientSummary);
+        } else {
+          setFreelancerSummary(data as FreelancerSummary);
+        }
+      })
+      .catch(console.error);
+  }, [role, session]);
+
+  const summary = role === "client" ? clientSummary : freelancerSummary;
+
   return (
     <Box className={styles.container}>
+      <HStack spacing={4} mb={4} justify="space-between" align="center">
+        <RoleSwitcher role={role} onChange={setRole} />
+        <HStack spacing={4}>
+          <Button as={Link} href="/onboarding" colorScheme="brand">
+            Complete Onboarding
+          </Button>
+          <Button as={Link} href="/gigs" colorScheme="brand" variant="outline">
+            Browse Gigs
+          </Button>
+          <Button as={Link} href="/messages" colorScheme="brand" variant="outline">
+            Messages
+          </Button>
+        </HStack>
       <HStack spacing={4} mb={4}>
         <Button as={Link} href="/onboarding" colorScheme="brand">
           Complete Onboarding
@@ -96,22 +144,26 @@ export default function DashboardPage() {
         </Button>
       </HStack>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
-        <DashboardCard title="Users">
+        <DashboardCard title="Contracts">
           <Stat>
-            <StatLabel>Total Users</StatLabel>
-            <StatNumber>{users.length}</StatNumber>
+            <StatLabel>Active</StatLabel>
+            <StatNumber>{summary?.activeContracts ?? 0}</StatNumber>
           </Stat>
         </DashboardCard>
         <DashboardCard title="Projects">
           <Stat>
-            <StatLabel>Active Projects</StatLabel>
+            <StatLabel>Total Projects</StatLabel>
             <StatNumber>{projects.length}</StatNumber>
           </Stat>
         </DashboardCard>
-        <DashboardCard title="Revenue">
+        <DashboardCard title="Financials">
           <Stat>
-            <StatLabel>Monthly</StatLabel>
-            <StatNumber>$0</StatNumber>
+            <StatLabel>{role === "client" ? "Total Spend" : "Total Earnings"}</StatLabel>
+            <StatNumber>
+              {role === "client"
+                ? `$${(summary as ClientSummary)?.totalSpend ?? 0}`
+                : `$${(summary as FreelancerSummary)?.totalEarnings ?? 0}`}
+            </StatNumber>
           </Stat>
         </DashboardCard>
       </SimpleGrid>
