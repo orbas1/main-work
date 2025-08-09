@@ -57,14 +57,37 @@ export default function DashboardPage() {
         <Button as={Link} href="/gigs" colorScheme="brand" variant="outline">
           Browse Gigs
         </Button>
+        <Button as={Link} href="/employment" colorScheme="brand" variant="outline">
+          Employment
         <Button as={Link} href="/gig-management" colorScheme="brand" variant="outline">
           Manage Gigs
+        </Button>
+        <Button as={Link} href="/sessions" colorScheme="brand" variant="outline">
+          Sessions
+        <Button as={Link} href="/tasks" colorScheme="brand" variant="outline">
+          Tasks
         </Button>
         <Button as={Link} href="/messages" colorScheme="brand" variant="outline">
           Messages
         </Button>
         <Button as={Link} href="/applications" colorScheme="brand" variant="outline">
           Applications
+        </Button>
+        <Button as={Link} href="/session-management" colorScheme="brand" variant="outline">
+          Session Management
+        </Button>
+        <Button as={Link} href="/connections" colorScheme="brand" variant="outline">
+          Connections
+        <Button as={Link} href="/progress" colorScheme="brand" variant="outline">
+          Progress
+        </Button>
+        <Button as={Link} href="/volunteering" colorScheme="brand" variant="outline">
+          Volunteering
+        <Button as={Link} href="/tasks" colorScheme="brand" variant="outline">
+          Tasks
+        </Button>
+        <Button as={Link} href="/experience" colorScheme="brand" variant="outline">
+          Experience
         </Button>
       </HStack>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
