@@ -67,6 +67,10 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  jobs             Job[]       @relation("JobEmployer")
+  applications     Application[] @relation("ApplicationApplicant")
+  tasks            Task[]      @relation("TaskCreator")
+  bids             TaskBid[]   @relation("TaskBidder")
   providedOpportunities Opportunity[] @relation("OpportunityProvider")
   opportunityApplications OpportunityApplication[] @relation("OpportunityApplicant")
 }
@@ -188,6 +192,10 @@ model Gig {
 }
 
 model Job {
+  id        Int      @id @default(autoincrement())
+  title     String
+  employer  User     @relation("JobEmployer", fields: [employerId], references: [id])
+  employerId Int
   id           Int           @id @default(autoincrement())
   title        String
   employer     User          @relation(fields: [employerId], references: [id])
@@ -200,6 +208,7 @@ model Application {
   id          Int         @id @default(autoincrement())
   job         Job         @relation(fields: [jobId], references: [id])
   jobId       Int
+  applicant   User     @relation("ApplicationApplicant", fields: [applicantId], references: [id])
   applicant   User        @relation(fields: [applicantId], references: [id])
   applicantId Int
   status      String      @default("pending")
@@ -316,4 +325,36 @@ model OpportunityApplication {
   applicantId   Int
   status        String      @default("pending")
   createdAt     DateTime    @default(now())
+}
+
+model Task {
+  id           Int       @id @default(autoincrement())
+  title        String
+  description  String
+  category     String?
+  skills       String[]
+  budgetMin    Int?
+  budgetMax    Int?
+  paymentMethod String?
+  deadline     DateTime?
+  media        String[]
+  visibility   String    @default("public")
+  creator      User      @relation("TaskCreator", fields: [creatorId], references: [id])
+  creatorId    Int
+  bids         TaskBid[]
+  status       String    @default("open")
+  createdAt    DateTime  @default(now())
+}
+
+model TaskBid {
+  id        Int      @id @default(autoincrement())
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    Int
+  bidder    User     @relation("TaskBidder", fields: [bidderId], references: [id])
+  bidderId  Int
+  amount    Int
+  message   String?
+  timeline  String?
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
 }
