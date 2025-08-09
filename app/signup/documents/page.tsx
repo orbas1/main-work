@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useSignup } from "@/components/SignupContext";
+import { fileToBase64 } from "@/lib/utils/file";
 import styles from "./page.module.css";
 
 export default function DocumentsPage() {
@@ -24,12 +25,11 @@ export default function DocumentsPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleResume = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleResume = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setResume(reader.result as string);
-    reader.readAsDataURL(file);
+    const base64 = await fileToBase64(file);
+    setResume(base64);
   };
 
   const handleSubmit = async () => {

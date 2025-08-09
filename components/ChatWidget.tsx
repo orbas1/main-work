@@ -14,6 +14,7 @@ import { ChatIcon, CloseIcon } from "@chakra-ui/icons";
 import MessageBubble from "./MessageBubble";
 import styles from "./ChatWidget.module.css";
 import NextLink from "next/link";
+import { useSession } from "next-auth/react";
 
 interface Message {
   id: number;
@@ -31,6 +32,7 @@ export default function ChatWidget() {
   const [chat, setChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (!open) return;
@@ -61,6 +63,28 @@ export default function ChatWidget() {
     }
   };
 
+  const talkToAI = async () => {
+    if (!text.trim()) return;
+    const res = await fetch("/api/messages/ai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: text }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setMessages((m) => [
+        ...m,
+        {
+          id: Date.now(),
+          senderId: 0,
+          content: data.message,
+          createdAt: new Date().toISOString(),
+        },
+      ]);
+      setText("");
+    }
+  };
+
   return (
     <Box className={styles.wrapper}>
       {open ? (
@@ -76,7 +100,11 @@ export default function ChatWidget() {
           </HStack>
           <VStack flex="1" overflowY="auto" align="stretch">
             {messages.map((m) => (
-              <MessageBubble key={m.id} content={m.content} />
+              <MessageBubble
+                key={m.id}
+                content={m.content}
+                mine={m.senderId === Number(session?.user?.id)}
+              />
             ))}
           </VStack>
           {chat && (
@@ -89,6 +117,9 @@ export default function ChatWidget() {
               />
               <Button size="sm" colorScheme="brand" onClick={send}>
                 Send
+              </Button>
+              <Button size="sm" variant="outline" onClick={talkToAI}>
+                AI
               </Button>
             </HStack>
           )}
