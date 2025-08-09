@@ -16,6 +16,7 @@ export default function Sidebar() {
     { href: "/onboarding", label: "Onboarding" },
     { href: "/profile", label: "Profile" },
     { href: "/profile/edit", label: "Edit Profile" },
+    { href: "/profile/customize", label: "Customize Profile" },
     { href: "/billing", label: "Billing" },
     { href: "/notifications", label: "Notifications" },
     { href: "/messages", label: "Messages" },

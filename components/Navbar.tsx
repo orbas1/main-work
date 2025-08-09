@@ -70,6 +70,9 @@ export default function Navbar() {
             <MenuItem as={Link} href="/profile/edit">
               Edit Profile
             </MenuItem>
+            <MenuItem as={Link} href="/profile/customize">
+              Customize Profile
+            </MenuItem>
             <MenuItem as={Link} href="/billing">
               Billing
             </MenuItem>

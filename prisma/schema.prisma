@@ -84,6 +84,11 @@ model User {
   introVideo       String?
   resume           String?
   coverLetter      String?
+  showPortfolio    Boolean? @default(true)
+  showReviews      Boolean? @default(true)
+  showActivityFeed Boolean? @default(true)
+  themeColor       String?
+  bannerUrl        String?
   notifications    Notification[]
   projects         Project[]
   subscriptions    Subscription[]
