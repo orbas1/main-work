@@ -63,5 +63,22 @@ export async function initiateChat(userId: number, targetUserId: number) {
   });
 }
 
+export async function createGroupChat(
+  creatorId: number,
+  participantIds: number[]
+) {
+  const uniqueIds = Array.from(new Set([creatorId, ...participantIds]));
+  if (uniqueIds.length < 2) {
+    throw new Error("At least one additional participant is required");
+  }
+  return prisma.chat.create({
+    data: {
+      participants: {
+        create: uniqueIds.map((id) => ({ userId: id })),
+      },
+    },
+  });
+}
+
 export type ChatWithLastMessage = Awaited<ReturnType<typeof listUserChats>>[number];
 export type Message = Awaited<ReturnType<typeof getChatMessages>>[number];

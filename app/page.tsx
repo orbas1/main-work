@@ -12,9 +12,13 @@ import {
   Image,
   Link,
   Container,
+  Spinner,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
+import FeatureCard from "@/components/FeatureCard";
+import SolutionCard from "@/components/SolutionCard";
+import { fetchJson } from "@/lib/fetcher";
 import styles from "./page.module.css";
 
 export default function LandingPage() {
@@ -25,6 +29,22 @@ export default function LandingPage() {
     "https://raw.githubusercontent.com/ServiceStack/images/master/hero/photo-1503435980610-a51f3ddfee50.jpg",
   ];
   const [heroIndex, setHeroIndex] = useState(0);
+  interface Feature {
+    id: number;
+    title: string;
+    description: string;
+    imageUrl: string;
+  }
+  interface Solution {
+    id: number;
+    title: string;
+    description: string;
+    imageUrl: string;
+    ctaText?: string | null;
+  }
+  const [features, setFeatures] = useState<Feature[]>([]);
+  const [solutions, setSolutions] = useState<Solution[]>([]);
+  const [loadingContent, setLoadingContent] = useState(true);
 
   useEffect(() => {
     const handler = () => setIsScrolled(window.scrollY > 10);
@@ -40,6 +60,24 @@ export default function LandingPage() {
     );
     return () => clearInterval(id);
   }, [heroImages.length]);
+
+  useEffect(() => {
+    async function loadContent() {
+      try {
+        const [featData, solData] = await Promise.all([
+          fetchJson<Feature[]>("/api/features"),
+          fetchJson<Solution[]>("/api/solutions"),
+        ]);
+        setFeatures(featData);
+        setSolutions(solData);
+      } catch (err) {
+        console.error("Failed to load landing content", err);
+      } finally {
+        setLoadingContent(false);
+      }
+    }
+    loadContent();
+  }, []);
 
   return (
     <Box>
@@ -94,41 +132,22 @@ export default function LandingPage() {
           <Heading size="lg" textAlign="center" mb={10}>
             Platform Highlights
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-            <Stack align="center" spacing={3} className={styles.featureCard}>
-              <Image
-                src="https://raw.githubusercontent.com/ServiceStack/images/master/hero/photo-1456244440184-1d494704a505.jpg"
-                alt="AI matching"
-                className={styles.featureImage}
-              />
-              <Heading size="md">AI-Powered Matching</Heading>
-              <Text textAlign="center">
-                Connect with the right opportunities using intelligent algorithms.
-              </Text>
-            </Stack>
-            <Stack align="center" spacing={3} className={styles.featureCard}>
-              <Image
-                src="https://raw.githubusercontent.com/ServiceStack/images/master/hero/photo-1500393734221-584dd6dbf92a.jpg"
-                alt="Gig management"
-                className={styles.featureImage}
-              />
-              <Heading size="md">Integrated Gig Management</Heading>
-              <Text textAlign="center">
-                Manage tasks and projects seamlessly in one place.
-              </Text>
-            </Stack>
-            <Stack align="center" spacing={3} className={styles.featureCard}>
-              <Image
-                src="https://raw.githubusercontent.com/ServiceStack/images/master/hero/photo-1462332420958-a05d1e002413.jpg"
-                alt="Analytics dashboard"
-                className={styles.featureImage}
-              />
-              <Heading size="md">Real-Time Analytics</Heading>
-              <Text textAlign="center">
-                Gain insights with up-to-the-minute data and reports.
-              </Text>
-            </Stack>
-          </SimpleGrid>
+          {loadingContent ? (
+            <Flex justify="center" py={10}>
+              <Spinner />
+            </Flex>
+          ) : (
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+              {features.map((f) => (
+                <FeatureCard
+                  key={f.id}
+                  title={f.title}
+                  description={f.description}
+                  imageUrl={f.imageUrl}
+                />
+              ))}
+            </SimpleGrid>
+          )}
         </Container>
       </Box>
 
@@ -137,74 +156,23 @@ export default function LandingPage() {
           <Heading size="lg" textAlign="center" mb={10}>
             Enterprise Solutions
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-            <Stack
-              spacing={4}
-              p={6}
-              bg="white"
-              borderRadius="md"
-              boxShadow="md"
-              align="center"
-              className={styles.solutionCard}
-            >
-              <Image
-                src="https://raw.githubusercontent.com/ServiceStack/images/master/hero/photo-1489343511429-5482f78c15cf.jpg"
-                alt="Recruiting suite"
-                className={styles.solutionImage}
-              />
-              <Heading size="md">Recruiting Suite</Heading>
-              <Text textAlign="center">
-                Automate sourcing and streamline applicant tracking with one unified hub.
-              </Text>
-              <Button colorScheme="brand" variant="outline">
-                Learn More
-              </Button>
-            </Stack>
-            <Stack
-              spacing={4}
-              p={6}
-              bg="white"
-              borderRadius="md"
-              boxShadow="md"
-              align="center"
-              className={styles.solutionCard}
-            >
-              <Image
-                src="https://raw.githubusercontent.com/ServiceStack/images/master/hero/photo-1494253188410-ff0cdea5499e.jpg"
-                alt="Gig marketplace"
-                className={styles.solutionImage}
-              />
-              <Heading size="md">Gig Marketplace</Heading>
-              <Text textAlign="center">
-                Connect freelancers and employers with secure contracts and messaging.
-              </Text>
-              <Button colorScheme="brand" variant="outline">
-                Explore
-              </Button>
-            </Stack>
-            <Stack
-              spacing={4}
-              p={6}
-              bg="white"
-              borderRadius="md"
-              boxShadow="md"
-              align="center"
-              className={styles.solutionCard}
-            >
-              <Image
-                src="https://raw.githubusercontent.com/ServiceStack/images/master/hero/photo-1504888302758-9adb6780e7c8.jpg"
-                alt="Analytics portal"
-                className={styles.solutionImage}
-              />
-              <Heading size="md">Analytics Portal</Heading>
-              <Text textAlign="center">
-                Visualize performance trends and make data-driven decisions instantly.
-              </Text>
-              <Button colorScheme="brand" variant="outline">
-                View Dashboard
-              </Button>
-            </Stack>
-          </SimpleGrid>
+          {loadingContent ? (
+            <Flex justify="center" py={10}>
+              <Spinner />
+            </Flex>
+          ) : (
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+              {solutions.map((s) => (
+                <SolutionCard
+                  key={s.id}
+                  title={s.title}
+                  description={s.description}
+                  imageUrl={s.imageUrl}
+                  ctaText={s.ctaText || undefined}
+                />
+              ))}
+            </SimpleGrid>
+          )}
         </Container>
       </Box>
 
