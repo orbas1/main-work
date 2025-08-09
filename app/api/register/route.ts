@@ -17,6 +17,7 @@ export async function POST(req: Request) {
       portfolio: data.portfolio,
       title: data.title,
       image: data.image,
+      introVideo: data.introVideo,
       resume: data.resume,
       coverLetter: data.coverLetter,
     });

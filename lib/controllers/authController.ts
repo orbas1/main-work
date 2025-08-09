@@ -13,6 +13,7 @@ export async function register(data: {
   portfolio?: string;
   title?: string;
   image?: string;
+  introVideo?: string;
   resume?: string;
   coverLetter?: string;
 }) {
