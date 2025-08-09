@@ -42,6 +42,33 @@ model User {
   Application          Application[]
   VolunteerOpportunity VolunteerOpportunity[]
   VolunteerApplication VolunteerApplication[]
+  id               Int               @id @default(autoincrement())
+  name             String?
+  email            String            @unique
+  role             Role              @default(jobSeeker)
+  password         String
+  phone            String?
+  location         String?
+  bio              String?
+  expertise        String?
+  payment          String?
+  taxId            String?
+  portfolio        String?
+  title            String?
+  image            String?
+  introVideo       String?
+  resume           String?
+  coverLetter      String?
+  notifications    Notification[]
+  projects         Project[]
+  subscriptions    Subscription[]
+  paymentMethods   PaymentMethod[]
+  transactions     Transaction[]
+  chatParticipants ChatParticipant[]
+  messages         Message[]
+  gigs             Gig[]
+  providedOpportunities Opportunity[] @relation("OpportunityProvider")
+  opportunityApplications OpportunityApplication[] @relation("OpportunityApplicant")
 }
 
 model Testimonial {
@@ -213,4 +240,55 @@ model VolunteerApplication {
   volunteerId   Int
   status        String               @default("pending")
   createdAt     DateTime             @default(now())
+}
+
+model Task {
+  id            Int      @id @default(autoincrement())
+  title         String
+  instructions  String?
+  payment       Float    @default(0)
+  deadline      DateTime
+  status        String   @default("active")
+  reschedulable Boolean  @default(true)
+  tasker        User     @relation(fields: [taskerId], references: [id])
+  taskerId      Int
+  rating        Float?
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Experience {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  projects  Int      @default(0)
+  reviews   Int      @default(0)
+  skills    Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Opportunity {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  category     String?
+  location     String?
+  skills       String?
+  compensation Int?
+  status       String   @default("open")
+  provider     User     @relation("OpportunityProvider", fields: [providerId], references: [id])
+  providerId   Int
+  applications OpportunityApplication[]
+  createdAt    DateTime @default(now())
+}
+
+model OpportunityApplication {
+  id            Int         @id @default(autoincrement())
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id])
+  opportunityId Int
+  applicant     User        @relation("OpportunityApplicant", fields: [applicantId], references: [id])
+  applicantId   Int
+  status        String      @default("pending")
+  createdAt     DateTime    @default(now())
 }
