@@ -75,6 +75,8 @@ export default function Navbar() {
             </MenuItem>
             <MenuItem as={Link} href="/services">
               Services
+            <MenuItem as={Link} href="/sessions">
+              Sessions
             </MenuItem>
             <MenuItem onClick={() => signOut()}>Logout</MenuItem>
           </MenuList>
