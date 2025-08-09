@@ -24,4 +24,11 @@ export interface TaskBid {
   timeline?: string | null;
   status: string;
   createdAt: string;
+  instructions?: string;
+  payment: number;
+  deadline: string;
+  status: string;
+  reschedulable: boolean;
+  rating?: number;
+  completedAt?: string;
 }
