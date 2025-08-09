@@ -133,6 +133,36 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.networkingSession.createMany({
+      data: [
+        {
+          title: 'Tech Networking Mixer',
+          description: 'Connect with tech enthusiasts and professionals.',
+          industry: 'Technology',
+          topic: 'Innovation',
+          date: new Date(Date.now() + 86400000),
+          duration: 60,
+          capacity: 50,
+          price: 0,
+          type: 'standard',
+          hostId: admin.id,
+        },
+        {
+          title: 'Startup Speed Networking',
+          description: 'Rapid introductions for startup founders.',
+          industry: 'Startups',
+          topic: 'Pitching',
+          date: new Date(Date.now() + 172800000),
+          duration: 30,
+          capacity: 20,
+          price: 10,
+          type: 'speed',
+          hostId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 

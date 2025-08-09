@@ -38,6 +38,8 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  hostedSessions   NetworkingSession[] @relation("SessionHost")
+  sessionRegistrations SessionRegistration[]
 }
 
 model Testimonial {
@@ -163,6 +165,32 @@ model Job {
   employerId Int
   applications Application[]
   createdAt DateTime @default(now())
+}
+
+model NetworkingSession {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  industry    String?
+  topic       String?
+  date        DateTime
+  duration    Int
+  capacity    Int
+  price       Float    @default(0)
+  type        String
+  host        User     @relation("SessionHost", fields: [hostId], references: [id])
+  hostId      Int
+  registrations SessionRegistration[]
+  createdAt   DateTime @default(now())
+}
+
+model SessionRegistration {
+  id           Int      @id @default(autoincrement())
+  session      NetworkingSession @relation(fields: [sessionId], references: [id])
+  sessionId    Int
+  participant  User     @relation(fields: [participantId], references: [id])
+  participantId Int
+  createdAt    DateTime @default(now())
 }
 
 model Application {
