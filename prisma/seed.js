@@ -133,6 +133,36 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    const buyer = await prisma.user.findFirst({ where: { email: 'alice@example.com' } });
+    if (buyer) {
+      await prisma.serviceAppointment.createMany({
+        data: [
+          {
+            title: 'Initial Consultation',
+            sellerId: admin.id,
+            buyerId: buyer.id,
+            start: new Date(),
+            end: new Date(Date.now() + 60 * 60 * 1000),
+            status: 'booked',
+          },
+        ],
+        skipDuplicates: true,
+      });
+    }
+
+    await prisma.task.createMany({
+      data: [
+        {
+          title: 'Design Marketing Flyer',
+          description: 'Create a flyer for upcoming event',
+          budget: 150,
+          creatorId: admin.id,
+          status: 'open',
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 

@@ -1,0 +1,9 @@
+.grid {
+  width: 100%;
+}
+.cell {
+  min-height: 80px;
+  padding: 4px;
+  border: 1px solid var(--chakra-colors-gray-200);
+  background: white;
+}
