@@ -18,6 +18,7 @@ export async function registerUser(data: {
   portfolio?: string;
   title?: string;
   image?: string;
+  introVideo?: string;
   resume?: string;
   coverLetter?: string;
 }) {
@@ -38,6 +39,7 @@ export async function registerUser(data: {
       portfolio: data.portfolio,
       title: data.title,
       image: data.image,
+      introVideo: data.introVideo,
       resume: data.resume,
       coverLetter: data.coverLetter,
     },

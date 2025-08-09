@@ -18,7 +18,8 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import api from "@/lib/api";
-import GigCard, { Gig } from "@/components/GigCard";
+import GigCard from "@/components/GigCard";
+import { Gig } from "@/lib/types/gig";
 import styles from "./page.module.css";
 
 export default function GigBrowsePage() {
