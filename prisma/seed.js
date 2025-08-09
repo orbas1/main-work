@@ -141,7 +141,6 @@ async function main() {
       ],
       skipDuplicates: true,
     });
-
     await prisma.networkingSession.createMany({
       data: [
         {
@@ -167,6 +166,11 @@ async function main() {
           price: 10,
           type: 'speed',
           hostId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
     await prisma.job.createMany({
       data: [
         {
@@ -177,6 +181,7 @@ async function main() {
           salaryMax: 90000,
           type: 'full-time',
           description: 'Build and maintain web applications using React and TypeScript.',
+          postedById: admin.id,
         },
         {
           title: 'Marketing Specialist',
@@ -186,19 +191,22 @@ async function main() {
           salaryMax: 65000,
           type: 'contract',
           description: 'Develop marketing strategies and manage campaigns across channels.',
-          description: 'Build modern UIs with React and Chakra UI',
-          company: 'Tech Corp',
-          location: 'Remote',
-          salary: 80000,
           postedById: admin.id,
         },
         {
           title: 'Backend Engineer',
-          description: 'Develop scalable APIs with Node and Prisma',
           company: 'Innovate LLC',
           location: 'New York, NY',
-          salary: 95000,
+          salaryMin: 90000,
+          salaryMax: 110000,
+          type: 'full-time',
+          description: 'Develop scalable APIs with Node and Prisma.',
           postedById: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
     await prisma.opportunity.createMany({
       data: [
         {
@@ -210,14 +218,6 @@ async function main() {
       skipDuplicates: true,
     });
 
-
-    await prisma.networkingSession.createMany({
-      data: [
-        {
-          title: 'Monthly Meetup',
-          description: 'Discuss upcoming projects',
-          date: new Date(),
-          hostId: admin.id,
     await prisma.volunteerOpportunity.createMany({
       data: [
         {
@@ -233,6 +233,11 @@ async function main() {
           location: 'New York',
           description: 'Help sort and pack food donations for families in need.',
           creatorId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
     await prisma.task.createMany({
       data: [
         {
