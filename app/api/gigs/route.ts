@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   if (!sellerId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const { title, description, price, category, thumbnail } = await req.json();
+  const { title, description, price, category, thumbnail, status } = await req.json();
   if (!title || !description || typeof price !== "number") {
     return NextResponse.json({ error: "Invalid input" }, { status: 400 });
   }
@@ -44,6 +44,7 @@ export async function POST(req: Request) {
     category,
     thumbnail,
     sellerId,
+    status,
   });
   return NextResponse.json(gig, { status: 201 });
 }
