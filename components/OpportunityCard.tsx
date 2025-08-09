@@ -1,5 +1,6 @@
 "use client";
 
+
 import { Box, Heading, Text, Button } from "@chakra-ui/react";
 import Link from "next/link";
 import styles from "./OpportunityCard.module.css";
