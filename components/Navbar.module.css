@@ -1,3 +1,5 @@
 .brand {
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
+  color: var(--color-primary);
 }

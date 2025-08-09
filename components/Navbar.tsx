@@ -75,6 +75,7 @@ export default function Navbar() {
             </MenuItem>
             <MenuItem as={Link} href="/services">
               Services
+            </MenuItem>
             <MenuItem as={Link} href="/sessions">
               Sessions
             </MenuItem>
