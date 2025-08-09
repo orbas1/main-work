@@ -133,6 +133,51 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.volunteerOpportunity.createMany({
+      data: [
+        {
+          title: 'Community Clean-Up',
+          organization: 'City Helpers',
+          location: 'Remote',
+          description: 'Assist in organizing a community clean-up event.',
+          creatorId: admin.id,
+        },
+        {
+          title: 'Food Bank Support',
+          organization: 'Helping Hands',
+          location: 'New York',
+          description: 'Help sort and pack food donations for families in need.',
+          creatorId: admin.id,
+    await prisma.task.createMany({
+      data: [
+        {
+          title: 'Update Landing Page',
+          instructions: 'Revise hero section copy',
+          payment: 150,
+          deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          taskerId: admin.id,
+        },
+        {
+          title: 'Customer Research Calls',
+          instructions: 'Schedule and conduct 5 interviews',
+          payment: 300,
+          deadline: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+          taskerId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
+
+    await prisma.experience.create({
+      data: {
+        userId: admin.id,
+        projects: 2,
+        reviews: 5,
+        skills: 8,
+      },
+    });
   }
 }
 
