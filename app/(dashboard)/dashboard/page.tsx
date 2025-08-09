@@ -24,6 +24,7 @@ import LineChart from "@/components/LineChart";
 import RoleSwitcher, { Role } from "@/components/RoleSwitcher";
 import api from "@/lib/api";
 import styles from "./page.module.css";
+import type { Contract } from "@/components/ContractCard";
 
 interface User {
   id: number;
@@ -52,6 +53,7 @@ export default function DashboardPage() {
   const { data: session } = useSession();
   const [users, setUsers] = useState<User[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [contracts, setContracts] = useState<Contract[]>([]);
   const [role, setRole] = useState<Role>("client");
   const [clientSummary, setClientSummary] = useState<ClientSummary | null>(null);
   const [freelancerSummary, setFreelancerSummary] =
@@ -60,6 +62,10 @@ export default function DashboardPage() {
   useEffect(() => {
     api.get<User[]>("/users").then(setUsers).catch(console.error);
     api.get<Project[]>("/projects").then(setProjects).catch(console.error);
+    api
+      .get<Contract[]>("/contracts?status=ACTIVE")
+      .then(setContracts)
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -143,6 +149,8 @@ export default function DashboardPage() {
           Experience
         </Button>
       </HStack>
+      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6} mb={10}>
+        <DashboardCard title="Users">
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} mb={10}>
         <DashboardCard title="Contracts">
           <Stat>
@@ -164,6 +172,12 @@ export default function DashboardPage() {
                 ? `$${(summary as ClientSummary)?.totalSpend ?? 0}`
                 : `$${(summary as FreelancerSummary)?.totalEarnings ?? 0}`}
             </StatNumber>
+          </Stat>
+        </DashboardCard>
+        <DashboardCard title="Contracts">
+          <Stat>
+            <StatLabel>Active Contracts</StatLabel>
+            <StatNumber>{contracts.length}</StatNumber>
           </Stat>
         </DashboardCard>
       </SimpleGrid>
