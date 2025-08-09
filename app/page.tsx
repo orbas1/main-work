@@ -92,7 +92,9 @@ export default function LandingPage() {
         bg="white"
         zIndex={10}
       >
-        <Heading size="md">Orbas</Heading>
+        <Link as={NextLink} href="/">
+          <Image src="/orbas-logo.svg" alt="Orbas logo" boxSize="40px" />
+        </Link>
         <Stack direction="row" spacing={6} align="center">
           <Link as={NextLink} href="#features">Features</Link>
           <Link as={NextLink} href="#solutions">Solutions</Link>
@@ -109,7 +111,7 @@ export default function LandingPage() {
       <Box className={styles.hero}>
         <Image
           src={heroImages[heroIndex]}
-          alt="Inspiring workplace"
+          alt="Professionals collaborating in a modern office"
           className={styles.heroImage}
         />
         <Box className={styles.heroOverlay}>
@@ -267,7 +269,7 @@ export default function LandingPage() {
 
       <Box as="footer" py={10} px={4} bg="gray.800" color="gray.200">
         <Container maxW="6xl" textAlign="center">
-          <Image src="/next.svg" alt="Orbas logo" mx="auto" mb={4} boxSize="50px" />
+          <Image src="/orbas-logo.svg" alt="Orbas logo" mx="auto" mb={4} boxSize="50px" />
           <Stack direction="row" spacing={6} justify="center" mb={4}>
             <Link as={NextLink} href="#">
               Home

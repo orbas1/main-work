@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Orbas",
-  description: "Orbas platform",
+  title: "Orbas | AI-Powered Talent Platform",
+  description:
+    "Orbas connects job seekers, freelancers, and businesses on one intelligent career marketplace.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
