@@ -17,9 +17,21 @@ export default function Sidebar() {
     { href: "/billing", label: "Billing" },
     { href: "/notifications", label: "Notifications" },
     { href: "/messages", label: "Messages" },
+    { href: "/applications", label: "Applications" },
     { href: "/gigs", label: "Browse Gigs" },
     { href: "/gig-management", label: "Manage Gigs" },
     { href: "/employment", label: "Employment" },
+    { href: "/opportunities", label: "Opportunities" },
+    { href: "/networking", label: "Networking" },
+    { href: "/tasks", label: "Tasks" },
+    { href: "/volunteer/opportunities", label: "Volunteer Opportunities" },
+    { href: "/volunteer/applications", label: "Volunteer Tracking" },
+    { href: "/progress", label: "Progress" },
+    { href: "/volunteering", label: "Volunteering" },
+    { href: "/tasks", label: "Tasks" },
+    { href: "/experience", label: "Experience" },
+    { href: "/opportunities", label: "Browse Opportunities" },
+    { href: "/opportunity-management", label: "Manage Opportunities" },
   ];
 
   return (
