@@ -1,0 +1,8 @@
+.list {
+  width: 100%;
+}
+
+.item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}

@@ -21,6 +21,8 @@ export default function Sidebar() {
     { href: "/applications", label: "Applications" },
     { href: "/gigs", label: "Browse Gigs" },
     { href: "/gig-management", label: "Manage Gigs" },
+    { href: "/session-management", label: "Session Management" },
+    { href: "/connections", label: "Connections" },
     { href: "/employment", label: "Employment" },
     { href: "/opportunities", label: "Opportunities" },
     { href: "/networking", label: "Networking" },
