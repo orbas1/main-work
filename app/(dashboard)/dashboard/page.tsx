@@ -66,6 +66,11 @@ export default function DashboardPage() {
         <Button as={Link} href="/applications" colorScheme="brand" variant="outline">
           Applications
         </Button>
+        <Button as={Link} href="/progress" colorScheme="brand" variant="outline">
+          Progress
+        </Button>
+        <Button as={Link} href="/volunteering" colorScheme="brand" variant="outline">
+          Volunteering
         <Button as={Link} href="/tasks" colorScheme="brand" variant="outline">
           Tasks
         </Button>
