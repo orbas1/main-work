@@ -38,6 +38,8 @@ model User {
   chatParticipants ChatParticipant[]
   messages         Message[]
   gigs             Gig[]
+  providedOpportunities Opportunity[] @relation("OpportunityProvider")
+  opportunityApplications OpportunityApplication[] @relation("OpportunityApplicant")
 }
 
 model Testimonial {
@@ -186,4 +188,29 @@ model Interview {
   status         String    @default("scheduled")
   notes          String?
   createdAt      DateTime  @default(now())
+}
+
+model Opportunity {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  category     String?
+  location     String?
+  skills       String?
+  compensation Int?
+  status       String   @default("open")
+  provider     User     @relation("OpportunityProvider", fields: [providerId], references: [id])
+  providerId   Int
+  applications OpportunityApplication[]
+  createdAt    DateTime @default(now())
+}
+
+model OpportunityApplication {
+  id            Int         @id @default(autoincrement())
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id])
+  opportunityId Int
+  applicant     User        @relation("OpportunityApplicant", fields: [applicantId], references: [id])
+  applicantId   Int
+  status        String      @default("pending")
+  createdAt     DateTime    @default(now())
 }
