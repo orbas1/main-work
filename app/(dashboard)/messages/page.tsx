@@ -9,9 +9,11 @@ import {
   Button,
   Heading,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import MessageBubble from "@/components/MessageBubble";
+import CreateGroupChatModal from "@/components/CreateGroupChatModal";
 import styles from "./page.module.css";
 
 interface Chat {
@@ -33,6 +35,8 @@ export default function MessagesPage() {
   const [selected, setSelected] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
+  const [filter, setFilter] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     fetch("/api/chats")
@@ -89,28 +93,45 @@ export default function MessagesPage() {
   return (
     <HStack align="start" spacing={4} className={styles.container}>
       <VStack w="30%" spacing={2} align="stretch" className={styles.sidebar}>
-        <Heading size="md">Conversations</Heading>
-        {chats.map((chat) => {
-          const other = chat.participants.find(
-            (p) => p.user.id !== Number(session?.user?.id)
-          );
-          return (
-            <Box
-              key={chat.id}
-              p={2}
-              borderWidth="1px"
-              borderRadius="md"
-              bg={selected?.id === chat.id ? "gray.200" : "white"}
-              cursor="pointer"
-              onClick={() => openChat(chat)}
-            >
-              <Text fontWeight="medium">{other?.user.name || "Chat"}</Text>
-              <Text fontSize="sm" color="gray.500">
-                {chat.messages[0]?.content || "No messages"}
-              </Text>
-            </Box>
-          );
-        })}
+        <HStack justify="space-between" align="center">
+          <Heading size="md">Conversations</Heading>
+          <Button size="sm" colorScheme="brand" onClick={onOpen}>
+            New Group
+          </Button>
+        </HStack>
+        <Input
+          placeholder="Search"
+          size="sm"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
+        {chats
+          .filter((chat) =>
+            chat.participants.some((p) =>
+              p.user.name?.toLowerCase().includes(filter.toLowerCase())
+            )
+          )
+          .map((chat) => {
+            const other = chat.participants.find(
+              (p) => p.user.id !== Number(session?.user?.id)
+            );
+            return (
+              <Box
+                key={chat.id}
+                p={2}
+                borderWidth="1px"
+                borderRadius="md"
+                bg={selected?.id === chat.id ? "gray.200" : "white"}
+                cursor="pointer"
+                onClick={() => openChat(chat)}
+              >
+                <Text fontWeight="medium">{other?.user.name || "Chat"}</Text>
+                <Text fontSize="sm" color="gray.500">
+                  {chat.messages[0]?.content || "No messages"}
+                </Text>
+              </Box>
+            );
+          })}
       </VStack>
       <VStack flex="1" align="stretch" className={styles.chat}>
         <Heading size="md">{selected ? "Chat" : "Select a conversation"}</Heading>
@@ -139,6 +160,11 @@ export default function MessagesPage() {
           </HStack>
         )}
       </VStack>
+      <CreateGroupChatModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onCreated={(chat) => setChats((c) => [...c, chat])}
+      />
     </HStack>
   );
 }
