@@ -22,6 +22,7 @@ export default function Sidebar() {
     { href: "/applications", label: "Applications" },
     { href: "/gigs", label: "Browse Gigs" },
     { href: "/gig-management", label: "Manage Gigs" },
+    { href: "/education", label: "Education" },
     { href: "/payment-timesheets", label: "Payments & Timesheets" },
     { href: "/proposal-invoice", label: "Proposals & Invoices" },
     { href: "/contracts", label: "Contracts" },

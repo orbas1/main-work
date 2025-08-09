@@ -129,6 +129,8 @@ export default function DashboardPage() {
         <Button as={Link} href="/messages" colorScheme="brand" variant="outline">
           Messages
         </Button>
+        <Button as={Link} href="/education" colorScheme="brand" variant="outline">
+          Education
         <Button as={Link} href="/applications" colorScheme="brand" variant="outline">
           Applications
         </Button>
