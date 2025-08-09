@@ -187,3 +187,26 @@ model Interview {
   notes          String?
   createdAt      DateTime  @default(now())
 }
+
+model Opportunity {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  employer    User     @relation(fields: [employerId], references: [id])
+  employerId  Int
+  skills      String?
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String   @default("open")
+  createdAt   DateTime @default(now())
+}
+
+model NetworkingSession {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  date        DateTime
+  host        User     @relation(fields: [hostId], references: [id])
+  hostId      Int
+  createdAt   DateTime @default(now())
+}

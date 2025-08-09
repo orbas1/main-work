@@ -133,6 +133,29 @@ async function main() {
       ],
       skipDuplicates: true,
     });
+
+    await prisma.opportunity.createMany({
+      data: [
+        {
+          title: 'Community Cleanup',
+          description: 'Organize local cleanup event',
+          employerId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
+
+    await prisma.networkingSession.createMany({
+      data: [
+        {
+          title: 'Monthly Meetup',
+          description: 'Discuss upcoming projects',
+          date: new Date(),
+          hostId: admin.id,
+        },
+      ],
+      skipDuplicates: true,
+    });
   }
 }
 
