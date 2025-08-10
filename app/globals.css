@@ -1,9 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --color-primary: #4169e1;
+  --color-ocean: #1e3a8a;
+  --color-sunset: #fb923c;
+  --color-meadow: #16a34a;
+  --color-plum: #9333ea;
+  --color-rose: #e11d48;
+  --color-gold: #f59e0b;
+  --color-slate: #64748b;
   --color-dark: #0d0d0d;
   --color-light: #ffffff;
+  --color-primary: var(--color-ocean);
 }
 
 body {
@@ -26,7 +33,7 @@ button {
 }
 
 button:hover {
-  background-color: #3252b3;
+  background-color: #2563eb;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
@@ -39,7 +46,7 @@ table {
 th,
 td {
   padding: 0.75rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-slate);
   text-align: left;
 }
 

@@ -11,16 +11,14 @@ import {
   MenuItem,
   HStack,
   Image,
-  Button,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { signOut, useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const user = { name: "Demo User", image: "/next.svg" };
   const router = useRouter();
   const [term, setTerm] = useState("");
 
@@ -55,43 +53,31 @@ export default function Navbar() {
         onChange={(e) => setTerm(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      {session ? (
-        <Menu>
-          <MenuButton>
-            <Avatar name={session.user?.name || "User"} src={session.user?.image || undefined} size="sm" />
-          </MenuButton>
-          <MenuList>
-            <MenuItem as={Link} href="/profile">
-              Profile
-            </MenuItem>
-            <MenuItem as={Link} href="/onboarding">
-              Onboarding
-            </MenuItem>
-            <MenuItem as={Link} href="/profile/edit">
-              Edit Profile
-            </MenuItem>
-            <MenuItem as={Link} href="/billing">
-              Billing
-            </MenuItem>
-            <MenuItem as={Link} href="/services">
-              Services
-            </MenuItem>
-            <MenuItem as={Link} href="/sessions">
-              Sessions
-            </MenuItem>
-            <MenuItem onClick={() => signOut()}>Logout</MenuItem>
-          </MenuList>
-        </Menu>
-      ) : (
-        <HStack spacing={3}>
-          <Button variant="ghost" onClick={() => signIn()}>
-            Login
-          </Button>
-          <Button colorScheme="brand" as={Link} href="/signup">
-            Sign Up
-          </Button>
-        </HStack>
-      )}
+      <Menu>
+        <MenuButton>
+          <Avatar name={user.name} src={user.image} size="sm" />
+        </MenuButton>
+        <MenuList>
+          <MenuItem as={Link} href="/profile">
+            Profile
+          </MenuItem>
+          <MenuItem as={Link} href="/onboarding">
+            Onboarding
+          </MenuItem>
+          <MenuItem as={Link} href="/profile/edit">
+            Edit Profile
+          </MenuItem>
+          <MenuItem as={Link} href="/billing">
+            Billing
+          </MenuItem>
+          <MenuItem as={Link} href="/services">
+            Services
+          </MenuItem>
+          <MenuItem as={Link} href="/sessions">
+            Sessions
+          </MenuItem>
+        </MenuList>
+      </Menu>
     </Flex>
   );
 }
