@@ -2,10 +2,10 @@
 
 import { Box, Heading, Text, VStack, Image } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { search } from "@/lib/search";
 
-export default function SearchPage() {
+function SearchContent() {
   const params = useSearchParams();
   const q = params.get("q") || "";
   const results = useMemo(() => search(q), [q]);
@@ -50,5 +50,19 @@ export default function SearchPage() {
         </VStack>
       )}
     </Box>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <Box p={6}>
+          <Text>Loading...</Text>
+        </Box>
+      }
+    >
+      <SearchContent />
+    </Suspense>
   );
 }
