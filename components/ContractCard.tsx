@@ -44,7 +44,7 @@ export default function ContractCard({ contract, onSelect }: Props) {
         )}
         <Button
           as={NextLink}
-          href={`#/contracts/${contract.id}`}
+          href={`/contracts/${contract.id}`}
           onClick={() => onSelect?.(contract.id)}
           colorScheme="brand"
           size="sm"
