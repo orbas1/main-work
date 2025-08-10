@@ -1,107 +1,347 @@
+/* ------------------------------------------------------------------
+   ORBAS – macOS Dashboard–Inspired Global Styles
+   - Glass widgets, window chrome, segmented controls, silky buttons
+   - Enterprise typography & tokens
+   - Light/Dark modes, accessibility, and motion-safe defaults
+------------------------------------------------------------------- */
+
+/* 1) CSS Reset (modern, minimal) */
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body,h1,h2,h3,h4,h5,h6,p,figure,blockquote,dl,dd { margin: 0; }
+ul[role="list"],ol[role="list"] { list-style: none; margin: 0; padding: 0; }
+img,video,svg,canvas { display: block; max-width: 100%; }
+button,input,select,textarea { font: inherit; color: inherit; }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* 2) Design Tokens */
 :root {
-  --color-ocean: #1e3a8a;
-  --color-sunset: #fb923c;
-  --color-meadow: #16a34a;
-  --color-plum: #9333ea;
-  --color-rose: #e11d48;
-  --color-gold: #f59e0b;
-  --color-slate: #64748b;
-  --color-dark: #0d0d0d;
-  --color-light: #ffffff;
-  --color-primary: var(--color-ocean);
+  /* Color system — neutral forward with subtle chroma */
+  --bg:           #0b0c0e;        /* base background (dark default; see media below) */
+  --surface:      #131519;        /* base card surface */
+  --surface-2:    #181b21;        /* deeper surface */
+  --text:         #e9ecf1;        /* primary text */
+  --text-muted:   #b7beca;        /* secondary text */
+  --brand:        #2f81f7;        /* “mac-ish” accent (blue) */
+  --success:      #34c759;
+  --warning:      #ffd60a;
+  --danger:       #ff3b30;
+  --focus:        #6ea8ff;
+
+  /* Glass overlays */
+  --glass:        rgba(255,255,255,0.06);
+  --glass-2:      rgba(255,255,255,0.10);
+  --stroke:       rgba(255,255,255,0.12);
+
+  /* Shadows (soft, layered) */
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.35);
+  --shadow-2: 0 8px 24px rgba(0,0,0,0.35);
+  --shadow-3: 0 16px 40px rgba(0,0,0,0.45);
+
+  /* Radii + spacing */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Typography scale (rem for accessibility) */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+               "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  --fs-12: 0.75rem;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-18: 1.125rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-28: 1.75rem;
+  --fs-32: 2rem;
+  --fs-40: 2.5rem;
+
+  /* Animation */
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --fast: 150ms;
+  --norm: 240ms;
+  --slow: 400ms;
+
+  /* Backdrop blur amount */
+  --blur: 18px;
+
+  /* Max content width */
+  --content: 1200px;
 }
 
+/* Light theme (auto) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:         #f5f6f8;
+    --surface:    rgba(255,255,255,0.80);
+    --surface-2:  rgba(255,255,255,0.92);
+    --text:       #0c0d0f;
+    --text-muted: #4b5563;
+    --glass:      rgba(255,255,255,0.55);
+    --glass-2:    rgba(255,255,255,0.70);
+    --stroke:     rgba(12,13,15,0.08);
+    --shadow-1:   0 1px 2px rgba(0,0,0,0.08);
+    --shadow-2:   0 10px 30px rgba(0,0,0,0.12);
+    --shadow-3:   0 20px 60px rgba(0,0,0,0.16);
+  }
+}
+
+/* Optional manual theming with [data-theme] */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+/* 3) Base Layout & Typography */
+html, body {
+  height: 100%;
+  color-scheme: light dark;
+}
 body {
-  margin: 0;
-  background-color: var(--color-light);
-  color: var(--color-dark);
-  font-family: var(--font-geist-sans), sans-serif;
+  background: radial-gradient(1200px 800px at 20% -10%, rgba(47,129,247,0.08), transparent 60%),
+              radial-gradient(1400px 900px at 120% 20%, rgba(52,199,89,0.05), transparent 65%),
+              var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-button {
-  font-family: var(--font-geist-sans), sans-serif;
-  background-color: var(--color-primary);
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.container {
+  width: min(100% - 32px, var(--content));
+  margin-inline: auto;
+}
+
+h1 { font-size: var(--fs-40); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: var(--fs-32); font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: var(--fs-28); font-weight: 600; }
+h4 { font-size: var(--fs-24); font-weight: 600; }
+h5 { font-size: var(--fs-20); font-weight: 600; }
+h6 { font-size: var(--fs-18); font-weight: 600; }
+p,li { color: var(--text); font-size: var(--fs-16); }
+.muted { color: var(--text-muted); }
+
+code,kbd,pre,samp { font-family: var(--font-mono); font-size: 0.95em; }
+
+/* 4) Glass Surfaces & Cards (widgets) */
+.card, .widget {
+  position: relative;
+  border-radius: var(--radius-xl);
+  background: var(--glass);
+  box-shadow: var(--shadow-2);
+  border: 1px solid var(--stroke);
+  overflow: hidden;
+}
+@supports(backdrop-filter: blur(1px)) {
+  .card, .widget { backdrop-filter: blur(var(--blur)); }
+}
+.card { padding: var(--space-6); }
+.widget {
+  padding: var(--space-5);
+  transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+}
+.widget:hover { transform: translateY(-2px); box-shadow: var(--shadow-3); }
+
+.widget__header {
+  display: flex; align-items: center; gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  font-weight: 600; font-size: var(--fs-18);
+}
+.widget__meta { color: var(--text-muted); font-size: var(--fs-14); }
+
+/* 5) macOS Window Chrome */
+.window {
+  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+}
+@supports(backdrop-filter: blur(1px)) {
+  .window { backdrop-filter: blur(var(--blur)); }
+}
+.window__titlebar {
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+  border-bottom: 1px solid var(--stroke);
+}
+.window__controls {
+  display: inline-flex; gap: 8px; align-items: center;
+}
+.win-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.25);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+}
+.win-close  { background: #ff5f56; }
+.win-min    { background: #ffbd2e; }
+.win-zoom   { background: #28c840; }
+.window__title { text-align: center; font-weight: 600; font-size: var(--fs-14); color: var(--text-muted); }
+.window__body { padding: var(--space-5); }
+
+/* 6) Buttons */
+.btn {
+  --btn-bg: var(--surface-2);
+  --btn-fg: var(--text);
+  --btn-br: var(--stroke);
+
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--btn-br);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent), var(--btn-bg);
+  color: var(--btn-fg);
+  box-shadow: var(--shadow-1);
+  transition: transform var(--fast) var(--ease), box-shadow var(--fast) var(--ease), background var(--fast);
   cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-2); }
+.btn:active { transform: translateY(0); box-shadow: var(--shadow-1); }
+
+.btn--primary {
+  --btn-bg: linear-gradient(180deg, rgba(47,129,247,0.25), rgba(47,129,247,0.15));
+  --btn-br: rgba(47,129,247,0.45);
+  background: var(--btn-bg);
+  color: #fff;
+}
+.btn--success { --btn-bg: rgba(52,199,89,0.25); --btn-br: rgba(52,199,89,0.45); color:#fff; }
+.btn--danger  { --btn-bg: rgba(255,59,48,0.25); --btn-br: rgba(255,59,48,0.45); color:#fff; }
+.btn--ghost   { --btn-bg: transparent; --btn-br: var(--stroke); color: var(--text); }
+
+/* Icon-only circular button */
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: inline-grid; place-items: center;
+  border: 1px solid var(--stroke);
+  background: var(--glass);
 }
 
-button:hover {
-  background-color: #2563eb;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-table {
+/* 7) Inputs & Segmented Control */
+.input, .select, .textarea {
   width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-geist-sans), sans-serif;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent), var(--glass);
+  color: var(--text);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-1) inset;
+}
+.input::placeholder { color: var(--text-muted); }
+
+.segmented {
+  display: inline-flex; gap: 4px; padding: 4px;
+  border-radius: 10px;
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+}
+.segmented__btn {
+  padding: 8px 12px; border-radius: 8px;
+  border: none; background: transparent; color: var(--text-muted);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+.segmented__btn[aria-pressed="true"] {
+  background: rgba(255,255,255,0.12);
+  color: var(--text);
 }
 
-th,
-td {
-  padding: 0.75rem;
-  border-bottom: 1px solid var(--color-slate);
-  text-align: left;
+/* 8) Toolbars & Pills */
+.toolbar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px; border-radius: 14px;
+  border: 1px solid var(--stroke);
+  background: var(--glass);
+}
+.pill {
+  padding: 6px 10px; border-radius: 999px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid var(--stroke);
+  font-size: var(--fs-12); color: var(--text-muted);
 }
 
-th {
-  background-color: #f5f8ff;
-  color: var(--color-dark);
-  font-weight: 600;
+/* 9) Scroll Areas (mac-like silky scrollbars) */
+.scroll-area {
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable both-edges;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-area::-webkit-scrollbar { height: 10px; width: 10px; }
+.scroll-area::-webkit-scrollbar-track { background: transparent; }
+.scroll-area::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.20));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 999px;
+}
+.scroll-area { scrollbar-color: rgba(255,255,255,0.35) transparent; scrollbar-width: thin; }
+
+/* 10) Elevations & Utilities */
+.elev-1 { box-shadow: var(--shadow-1); }
+.elev-2 { box-shadow: var(--shadow-2); }
+.elev-3 { box-shadow: var(--shadow-3); }
+.round-sm { border-radius: var(--radius-sm); }
+.round-md { border-radius: var(--radius-md); }
+.round-lg { border-radius: var(--radius-lg); }
+.round-xl { border-radius: var(--radius-xl); }
+.grid-2 { display: grid; gap: var(--space-5); grid-template-columns: repeat(2, minmax(0,1fr)); }
+.grid-3 { display: grid; gap: var(--space-5); grid-template-columns: repeat(3, minmax(0,1fr)); }
+.stack-4 > * + * { margin-top: var(--space-4); }
+.inline-4 { display: inline-flex; gap: var(--space-4); align-items: center; }
+
+/* 11) Status Chips (for widgets) */
+.chip { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius: 999px; border:1px solid var(--stroke); background: var(--glass); font-size: var(--fs-12); }
+.chip--green  { color:#1ec06b; }
+.chip--amber  { color:#e7b008; }
+.chip--red    { color:#e35b5b; }
+.chip-dot { width:8px; height:8px; border-radius:50%; background: currentColor; }
+
+/* 12) Tables (compact, enterprise) */
+.table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: var(--glass); border: 1px solid var(--stroke); border-radius: 14px; overflow: hidden;
+}
+.table th, .table td { padding: 12px 14px; text-align: left; }
+.table thead th {
+  font-size: var(--fs-12); color: var(--text-muted);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent);
+}
+.table tbody tr + tr td { border-top: 1px solid var(--stroke); }
+.table tbody tr:hover { background: rgba(255,255,255,0.06); }
+
+/* 13) Toast (subtle mac-style) */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+  padding: 12px 16px; border-radius: 12px;
+  background: rgba(10, 10, 12, 0.75);
+  color: #fff; border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: var(--shadow-2);
 }
 
-nav {
-  font-family: var(--font-geist-sans), sans-serif;
+/* 14) Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-label {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  color: var(--color-dark);
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--color-slate);
-  border-radius: 4px;
-  font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--color-slate);
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
-}
-
-input:disabled,
-select:disabled,
-textarea:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
-
-input[type='checkbox'],
-input[type='radio'] {
-  accent-color: var(--color-primary);
+/* 15) High-contrast assist */
+@media (forced-colors: active) {
+  .card,.widget,.window,.btn,.input,.select,.textarea,.toolbar,.pill,.table {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
 }
