@@ -18,7 +18,7 @@ export default function Home() {
       </header>
       <section className={styles.hero}>
         <Image
-          src="https://source.unsplash.com/random/1600x900?career"
+          src="/api/image"
           alt="Collaborate"
           fill
           sizes="100vw"

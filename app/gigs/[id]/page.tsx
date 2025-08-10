@@ -18,7 +18,7 @@ export default function GigDetailPage({
     description: "Detailed description coming soon.",
     views: 0,
     seller: { id: 1, name: "Jane Doe", image: "/next.svg" },
-    thumbnail: "https://source.unsplash.com/random/800x600?project",
+    thumbnail: "/api/image",
   };
 
   return (

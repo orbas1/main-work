@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 :root {
   --color-ocean: #1e3a8a;
   --color-sunset: #fb923c;
@@ -17,11 +15,11 @@ body {
   margin: 0;
   background-color: var(--color-light);
   color: var(--color-dark);
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 button {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
   background-color: var(--color-primary);
   color: #ffffff;
   border: none;
@@ -40,7 +38,7 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 th,
@@ -57,7 +55,7 @@ th {
 }
 
 nav {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 form {

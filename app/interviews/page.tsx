@@ -9,7 +9,7 @@ const interviews = [
     jobTitle: "Frontend Developer",
     scheduledAt: new Date().toISOString(),
     location: "Zoom",
-    link: "https://zoom.us/j/123456789",
+    link: "/api/meeting/123456789",
     status: "scheduled",
   },
   {
