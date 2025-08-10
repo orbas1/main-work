@@ -24,3 +24,13 @@ export interface SessionRegistration {
   sessionId: number;
   participantId: number;
 }
+
+export interface SessionParticipant {
+  id: number;
+  user: {
+    id: number;
+    name: string | null;
+    image?: string | null;
+    title?: string | null;
+  };
+}
