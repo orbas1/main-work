@@ -10,7 +10,7 @@ const myGigs: Gig[] = [
     title: "Marketing Consultation",
     price: 300,
     category: "Marketing",
-    thumbnail: "https://source.unsplash.com/random/400x300?marketing",
+    thumbnail: "/api/image",
     rating: 5,
     seller: { id: 1, name: "You", image: "/next.svg" },
   },

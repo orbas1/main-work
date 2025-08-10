@@ -1,6 +1,6 @@
 .nav {
   width: 100%;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 .section {

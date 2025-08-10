@@ -103,8 +103,8 @@ const theme = extendTheme({
   config,
   colors,
   fonts: {
-    heading: "Poppins, sans-serif",
-    body: "Poppins, sans-serif",
+    heading: "var(--font-geist-sans), sans-serif",
+    body: "var(--font-geist-sans), sans-serif",
   },
   components: {
     Button: {

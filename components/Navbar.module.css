@@ -1,12 +1,12 @@
 .brand {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
   font-weight: 600;
   color: var(--color-primary);
   font-size: 1.25rem;
 }
 
 .menuList {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
   border-radius: 0.5rem;
 }
 
