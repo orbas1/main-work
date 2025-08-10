@@ -1,4 +1,4 @@
-import { NetworkingSession } from "@/lib/types/session";
+import { NetworkingSession, SessionParticipant } from "@/lib/types/session";
 
 export const networkingSessions: NetworkingSession[] = [
   {
@@ -42,6 +42,36 @@ export const networkingSessions: NetworkingSession[] = [
     type: "networking",
     host: { id: 3, name: "Cleo Lee", image: "/next.svg" },
     availableSeats: 5,
+  },
+];
+
+export const sessionParticipants: SessionParticipant[] = [
+  {
+    id: 1,
+    user: {
+      id: 1,
+      name: "Alice Johnson",
+      image: "/next.svg",
+      title: "Engineer",
+    },
+  },
+  {
+    id: 2,
+    user: {
+      id: 2,
+      name: "Brian Smith",
+      image: "/next.svg",
+      title: "Marketer",
+    },
+  },
+  {
+    id: 3,
+    user: {
+      id: 3,
+      name: "Cleo Lee",
+      image: "/next.svg",
+      title: "Designer",
+    },
   },
 ];
 
