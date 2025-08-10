@@ -1,9 +1,14 @@
 "use client";
-import { Box, Heading } from "@chakra-ui/react";
+
+import { Box } from "@chakra-ui/react";
+import Navbar from "@/components/Navbar";
+import LiveFeed from "@/components/LiveFeed";
+
 export default function DashboardPage() {
   return (
-    <Box p={4}>
-      <Heading>Dashboard</Heading>
+    <Box bg="slate.50" minH="100vh">
+      <Navbar />
+      <LiveFeed />
     </Box>
   );
 }

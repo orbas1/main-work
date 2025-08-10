@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect, FormEvent } from "react";
 import {
   Box,
@@ -11,7 +10,6 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import api from "@/lib/api";
 import styles from "./page.module.css";
 
@@ -24,7 +22,6 @@ interface ProfileForm {
 }
 
 export default function EditProfilePage() {
-  const { status } = useSession();
   const router = useRouter();
   const [form, setForm] = useState<ProfileForm>({
     name: "",
@@ -35,11 +32,8 @@ export default function EditProfilePage() {
   });
 
   useEffect(() => {
-    if (status === "unauthenticated") router.push("/login");
-    if (status === "authenticated") {
-      api.get<ProfileForm>("/profile").then((data) => setForm(data));
-    }
-  }, [status, router]);
+    api.get<ProfileForm>("/profile").then((data) => setForm(data));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
