@@ -12,12 +12,12 @@ import Link from "next/link";
 import { getOpportunityById } from "@/lib/opportunities";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function OpportunityDetail({ params }: Props) {
-  const id = Number(params.id);
-  const opportunity = getOpportunityById(id);
+export default async function OpportunityDetail({ params }: Props) {
+  const { id } = await params;
+  const opportunity = getOpportunityById(Number(id));
 
   if (!opportunity) return notFound();
 
