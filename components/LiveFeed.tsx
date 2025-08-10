@@ -9,6 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import styles from "./LiveFeed.module.css";
 
 interface Post {
@@ -55,6 +56,8 @@ const stories = [
   { id: 5, name: "Eve", avatar: "/next.svg" },
 ];
 
+const MotionBox = motion(Box);
+
 export default function LiveFeed() {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const loader = useRef<HTMLDivElement | null>(null);
@@ -82,7 +85,7 @@ export default function LiveFeed() {
   }, []);
 
   return (
-    <VStack spacing={6} className={styles.feed}>
+    <VStack spacing={6} className={styles.feed} align="stretch">
       <HStack spacing={3} className={styles.stories}>
         {stories.map((story) => (
           <VStack key={story.id} className={styles.story}>
@@ -97,7 +100,13 @@ export default function LiveFeed() {
         ))}
       </HStack>
       {posts.map((post) => (
-        <Box key={post.id} className={styles.post}>
+        <MotionBox
+          key={post.id}
+          className={styles.post}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <HStack className={styles.postHeader} spacing={3}>
             <Avatar src={post.avatar} name={post.user} size="sm" />
             <Text fontWeight="bold">{post.user}</Text>
@@ -109,7 +118,7 @@ export default function LiveFeed() {
             </Text>
             <Text>{post.caption}</Text>
           </Box>
-        </Box>
+        </MotionBox>
       ))}
       <div ref={loader} />
     </VStack>
