@@ -10,7 +10,8 @@
     "migrate": "prisma migrate deploy",
     "seed": "prisma db seed",
     "baseline": "node prisma/baseline.js",
-    "vercel-build": "npm run baseline && next build"
+    "check-all": "node checks/runChecks.js",
+    "vercel-build": "npm run baseline && npm run check-all && next build"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.2.4",
