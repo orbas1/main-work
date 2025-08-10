@@ -3,10 +3,16 @@
 import { Box } from "@chakra-ui/react";
 import GigDetail from "@/components/GigDetail";
 import { GigDetails } from "@/lib/types/gig";
+import { use } from "react";
 
-export default function GigDetailPage({ params }: { params: { id: string } }) {
+export default function GigDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
   const gig: GigDetails = {
-    id: Number(params.id),
+    id: Number(id),
     title: "Sample Gig",
     price: 200,
     description: "Detailed description coming soon.",
