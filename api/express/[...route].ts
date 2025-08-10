@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import prisma from "../../lib/prisma";
+import { reverseGeocode } from "../../lib/services/geolocation";
 
 const app = express();
 app.use(express.json());
@@ -39,6 +40,20 @@ app.post("/chats/:id/messages", (req: Request, res: Response) => {
 app.post("/messages/ai", (req: Request, res: Response) => {
   const { prompt } = req.body;
   res.json({ message: `AI response to: ${prompt}` });
+});
+
+app.get("/location", async (req: Request, res: Response) => {
+  const lat = parseFloat(req.query.lat as string);
+  const lon = parseFloat(req.query.lon as string);
+  if (Number.isNaN(lat) || Number.isNaN(lon)) {
+    return res.status(400).json({ error: "Invalid coordinates" });
+  }
+  try {
+    const location = await reverseGeocode(lat, lon);
+    res.json({ location });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch location" });
+  }
 });
 
 app.use((_req: Request, res: Response) => {
