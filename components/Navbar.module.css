@@ -2,4 +2,18 @@
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   color: var(--color-primary);
+  font-size: 1.25rem;
+}
+
+.menuList {
+  font-family: 'Poppins', sans-serif;
+  border-radius: 0.5rem;
+}
+
+.menuItem {
+  font-size: 0.875rem;
+}
+
+.menuItem:hover {
+  background-color: rgba(65, 105, 225, 0.1);
 }
