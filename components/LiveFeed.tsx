@@ -1,6 +1,14 @@
 "use client";
 
-import { Avatar, Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  HStack,
+  Image,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./LiveFeed.module.css";
 
 interface Post {
@@ -12,7 +20,7 @@ interface Post {
   likes: number;
 }
 
-const posts: Post[] = [
+const initialPosts: Post[] = [
   {
     id: 1,
     user: "Demo User",
@@ -39,9 +47,55 @@ const posts: Post[] = [
   },
 ];
 
+const stories = [
+  { id: 1, name: "Alice", avatar: "/next.svg" },
+  { id: 2, name: "Bob", avatar: "/next.svg" },
+  { id: 3, name: "Cleo", avatar: "/next.svg" },
+  { id: 4, name: "Dan", avatar: "/next.svg" },
+  { id: 5, name: "Eve", avatar: "/next.svg" },
+];
+
 export default function LiveFeed() {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const loader = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPosts((prev) => [
+          ...prev,
+          ...initialPosts.map((p, i) => ({ ...p, id: prev.length + i + 1 })),
+        ]);
+      }
+    });
+
+    const current = loader.current;
+    if (current) {
+      observer.observe(current);
+    }
+
+    return () => {
+      if (current) {
+        observer.unobserve(current);
+      }
+    };
+  }, []);
+
   return (
     <VStack spacing={6} className={styles.feed}>
+      <HStack spacing={3} className={styles.stories}>
+        {stories.map((story) => (
+          <VStack key={story.id} className={styles.story}>
+            <Avatar
+              src={story.avatar}
+              name={story.name}
+              size="md"
+              className={styles.storyAvatar}
+            />
+            <Text fontSize="sm">{story.name}</Text>
+          </VStack>
+        ))}
+      </HStack>
       {posts.map((post) => (
         <Box key={post.id} className={styles.post}>
           <HStack className={styles.postHeader} spacing={3}>
@@ -57,6 +111,7 @@ export default function LiveFeed() {
           </Box>
         </Box>
       ))}
+      <div ref={loader} />
     </VStack>
   );
 }
