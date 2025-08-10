@@ -27,12 +27,12 @@ export default function WeatherWidget() {
   }, []);
 
   return (
-    <div className={styles.widget}>
-      <div className={styles.header}>Weather</div>
+    <div className={`widget ${styles.widget}`}>
+      <div className={`widget__header ${styles.header}`}>Weather</div>
       {weather ? (
         <div className={styles.body}>
           <div className={styles.temp}>{Math.round(weather.temperature)}°C</div>
-          <div className={styles.meta}>Wind {Math.round(weather.windspeed)} km/h</div>
+          <div className="muted">Wind {Math.round(weather.windspeed)} km/h</div>
         </div>
       ) : (
         <div className={styles.loading}>Loading...</div>

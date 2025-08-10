@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import CalendarWidget from "@/components/CalendarWidget";
+import WeatherWidget from "@/components/WeatherWidget";
 
 export default function DashboardPage() {
   const [view, setView] = useState("Overview");
@@ -71,6 +73,8 @@ export default function DashboardPage() {
                 <button className="btn btn--primary">Save</button>
               </div>
             </section>
+            <CalendarWidget />
+            <WeatherWidget />
           </div>
         </div>
       </div>
