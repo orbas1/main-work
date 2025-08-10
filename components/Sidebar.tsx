@@ -1,6 +1,14 @@
 "use client";
 
-import { VStack, Box, Text, Link as ChakraLink } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
+  Link as ChakraLink,
+} from "@chakra-ui/react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
@@ -69,33 +77,43 @@ export default function Sidebar() {
   ];
 
   return (
-    <VStack
+    <Accordion
       as="nav"
       w={{ base: "full", md: "60" }}
       bg="white"
       h="calc(100vh - 64px)"
       p={4}
-      spacing={0}
-      align="stretch"
+      allowMultiple
+      className={styles.nav}
       borderRightWidth="1px"
       borderColor="gray.200"
-      className={styles.nav}
     >
       {sections.map((section) => (
-        <Box key={section.title} className={styles.section}>
-          <Text className={styles.sectionTitle}>{section.title}</Text>
-          {section.links.map((link) => (
-            <ChakraLink
-              key={link.href}
-              as={NextLink}
-              href={link.href}
-              className={`${styles.link} ${pathname === link.href ? styles.active : ""}`}
-            >
-              {link.label}
-            </ChakraLink>
-          ))}
-        </Box>
+        <AccordionItem key={section.title} border="none">
+          <h2>
+            <AccordionButton className={styles.sectionTitle}>
+              <Box flex="1" textAlign="left">
+                {section.title}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel className={styles.section}>
+            {section.links.map((link) => (
+              <ChakraLink
+                key={link.href}
+                as={NextLink}
+                href={link.href}
+                className={`${styles.link} ${
+                  pathname === link.href ? styles.active : ""
+                }`}
+              >
+                {link.label}
+              </ChakraLink>
+            ))}
+          </AccordionPanel>
+        </AccordionItem>
       ))}
-    </VStack>
+    </Accordion>
   );
 }

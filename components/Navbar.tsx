@@ -53,27 +53,27 @@ export default function Navbar() {
         onChange={(e) => setTerm(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-      <Menu>
+  <Menu>
         <MenuButton>
           <Avatar name={user.name} src={user.image} size="sm" />
         </MenuButton>
-        <MenuList>
-          <MenuItem as={Link} href="/profile">
+        <MenuList className={styles.menuList} py={2} shadow="md">
+          <MenuItem className={styles.menuItem} as={Link} href="/profile">
             Profile
           </MenuItem>
-          <MenuItem as={Link} href="/onboarding">
+          <MenuItem className={styles.menuItem} as={Link} href="/onboarding">
             Onboarding
           </MenuItem>
-          <MenuItem as={Link} href="/profile/edit">
+          <MenuItem className={styles.menuItem} as={Link} href="/profile/edit">
             Edit Profile
           </MenuItem>
-          <MenuItem as={Link} href="/billing">
+          <MenuItem className={styles.menuItem} as={Link} href="/billing">
             Billing
           </MenuItem>
-          <MenuItem as={Link} href="/services">
+          <MenuItem className={styles.menuItem} as={Link} href="/services">
             Services
           </MenuItem>
-          <MenuItem as={Link} href="/sessions">
+          <MenuItem className={styles.menuItem} as={Link} href="/sessions">
             Sessions
           </MenuItem>
         </MenuList>
