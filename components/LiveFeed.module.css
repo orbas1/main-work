@@ -1,8 +1,14 @@
 .feed {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1rem 0 3rem;
+  min-height: calc(100vh - 4rem);
+  margin: 0;
+  padding: 1rem;
+  overflow-y: auto;
+  background: linear-gradient(
+    to bottom,
+    var(--color-light, #ffffff),
+    var(--color-slate, #e2e8f0)
+  );
 }
 
 .stories {
