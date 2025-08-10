@@ -13,14 +13,33 @@ import {
   Image,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import type { IconType } from "react-icons";
+import {
+  FiUser,
+  FiCompass,
+  FiEdit,
+  FiCreditCard,
+  FiShoppingBag,
+  FiCalendar,
+} from "react-icons/fi";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const user = { name: "Demo User", image: "/next.svg" };
   const router = useRouter();
+  const pathname = usePathname();
   const [term, setTerm] = useState("");
+
+  const menuItems: { label: string; href: string; icon: IconType }[] = [
+    { label: "Profile", href: "/profile", icon: FiUser },
+    { label: "Onboarding", href: "/onboarding", icon: FiCompass },
+    { label: "Edit Profile", href: "/profile/edit", icon: FiEdit },
+    { label: "Billing", href: "/billing", icon: FiCreditCard },
+    { label: "Services", href: "/services", icon: FiShoppingBag },
+    { label: "Sessions", href: "/sessions", icon: FiCalendar },
+  ];
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && term.trim()) {
@@ -53,29 +72,24 @@ export default function Navbar() {
         onChange={(e) => setTerm(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-  <Menu>
+      <Menu>
         <MenuButton>
           <Avatar name={user.name} src={user.image} size="sm" />
         </MenuButton>
         <MenuList className={styles.menuList} py={2} shadow="md">
-          <MenuItem className={styles.menuItem} as={Link} href="/profile">
-            Profile
-          </MenuItem>
-          <MenuItem className={styles.menuItem} as={Link} href="/onboarding">
-            Onboarding
-          </MenuItem>
-          <MenuItem className={styles.menuItem} as={Link} href="/profile/edit">
-            Edit Profile
-          </MenuItem>
-          <MenuItem className={styles.menuItem} as={Link} href="/billing">
-            Billing
-          </MenuItem>
-          <MenuItem className={styles.menuItem} as={Link} href="/services">
-            Services
-          </MenuItem>
-          <MenuItem className={styles.menuItem} as={Link} href="/sessions">
-            Sessions
-          </MenuItem>
+          {menuItems.map(({ label, href, icon: Icon }) => (
+            <MenuItem
+              key={href}
+              className={styles.menuItem}
+              as={Link}
+              href={href}
+              icon={<Icon />}
+              bg={pathname === href ? "gray.100" : undefined}
+              fontWeight={pathname === href ? "600" : "normal"}
+            >
+              {label}
+            </MenuItem>
+          ))}
         </MenuList>
       </Menu>
     </Flex>
