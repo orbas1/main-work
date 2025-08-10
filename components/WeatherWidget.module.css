@@ -1,18 +1,10 @@
 .widget {
   width: 200px;
-  background: linear-gradient(#4f4f4f, #2f2f2f);
-  color: #fff;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  padding: 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
 .header {
-  text-align: center;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  justify-content: center;
+  margin-bottom: var(--space-3);
 }
 
 .body {
@@ -23,10 +15,6 @@
   font-size: 48px;
   font-weight: 300;
   line-height: 1;
-}
-
-.meta {
-  font-size: 14px;
 }
 
 .loading {

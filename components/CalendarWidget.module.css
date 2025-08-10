@@ -1,18 +1,9 @@
-.widget {
+ .widget {
   width: 200px;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-}
+ }
 
 .header {
-  background: #c0392b;
-  color: #fff;
-  text-align: center;
-  padding: 0.5rem 0;
-  font-weight: 600;
+  justify-content: center;
 }
 
 .grid {
@@ -24,17 +15,17 @@
 }
 
 .dayName {
-  font-size: 0.75rem;
+  font-size: var(--fs-12);
   font-weight: 600;
 }
 
 .day {
-  font-size: 0.875rem;
+  font-size: var(--fs-14);
   padding: 0.25rem 0;
 }
 
 .today {
-  background: #ff9500;
+  background: var(--brand);
   color: #fff;
   border-radius: 4px;
 }

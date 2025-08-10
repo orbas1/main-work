@@ -20,8 +20,8 @@ export default function CalendarWidget() {
   }
 
   return (
-    <div className={styles.widget}>
-      <div className={styles.header}>
+    <div className={`widget ${styles.widget}`}>
+      <div className={`widget__header ${styles.header}`}>
         {now.toLocaleString("default", { month: "long" })} {year}
       </div>
       <div className={styles.grid}>
