@@ -24,10 +24,11 @@ export default function GigCard({ gig }: { gig: Gig }) {
       as={NextLink}
       href={`/gigs/${gig.id}`}
       borderWidth="1px"
-      borderRadius="md"
+      borderRadius="lg"
       overflow="hidden"
       bg="white"
       position="relative"
+      boxShadow="sm"
       className={styles.card}
     >
       <IconButton

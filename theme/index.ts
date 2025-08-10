@@ -5,22 +5,23 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 };
 
-const ocean = {
-  50: "#eff6ff",
-  100: "#dbeafe",
-  200: "#bfdbfe",
-  300: "#93c5fd",
-  400: "#60a5fa",
-  500: "#3b82f6",
-  600: "#2563eb",
-  700: "#1d4ed8",
-  800: "#1e40af",
-  900: "#1e3a8a",
+const apple = {
+  50: "#f0f7ff",
+  100: "#d4e6ff",
+  200: "#a9cdff",
+  300: "#7db4ff",
+  400: "#4596ff",
+  500: "#0071e3",
+  600: "#005bb5",
+  700: "#004088",
+  800: "#002f66",
+  900: "#001f44",
 };
 
 const colors = {
-  brand: ocean,
-  ocean,
+  brand: apple,
+  apple,
+  ocean: apple,
   sunset: {
     50: "#fff7ed",
     100: "#ffedd5",
@@ -103,8 +104,10 @@ const theme = extendTheme({
   config,
   colors,
   fonts: {
-    heading: "var(--font-geist-sans), sans-serif",
-    body: "var(--font-geist-sans), sans-serif",
+    heading:
+      '"SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    body:
+      '"SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
   },
   components: {
     Button: {
@@ -128,8 +131,8 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: "white",
-        color: "black",
+        bg: "#f5f5f7",
+        color: "#1d1d1f",
       },
     },
   },

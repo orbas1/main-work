@@ -1,8 +1,10 @@
 .card {
-  transition: box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  border-radius: 12px;
 }
 
 .card:hover {
-  box-shadow: var(--chakra-shadows-md);
+  transform: translateY(-2px);
+  box-shadow: var(--chakra-shadows-lg);
 }
